@@ -9,8 +9,8 @@ public class HomePage {
 
     protected WebDriver driver;
 
-    //@FindBy(xpath = "//span[contains(text(), 'My account')]")
-    @FindBy(css = "li[id='menu-item-22'] a[class='nav__link']")
+    @FindBy(xpath = "//span[contains(text(), 'My account')]")
+    //@FindBy(css = "li[id='menu-item-22'] a[class='nav__link']")
     private WebElement myAccountLink;
 
     public HomePage(WebDriver driver) {
