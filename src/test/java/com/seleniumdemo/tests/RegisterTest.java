@@ -20,7 +20,8 @@ public class RegisterTest extends BaseTest {
         ExtentTest test = extentReports.createTest("Register User Test");
         HomePage homePage = new HomePage(driver);
         RegisterUserPage registerUserPage = homePage.clickMyAccount();
-        String email = "mareczek@testowy.pl";
+        int random = (int) (Math.random() * 1000);
+        String email = "mareczek" + random + "@testowy.pl";
         logger.info("Entering email address: " + email);
         test.log(Status.PASS, "Entering email address: " + email);
         registerUserPage.enterRegisterEmail(email);
