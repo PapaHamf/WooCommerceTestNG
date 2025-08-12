@@ -12,10 +12,13 @@ public class MyAccountPage {
 
     protected WebDriver driver;
 
-    @FindBys({@FindBy(className = "woocommerce-MyAccount-content"), @FindBy(tagName = "p")})
+    @FindBys({@FindBy(className = "woocommerce-MyAccount-content"),
+            @FindBy(tagName = "p"), @FindBy(tagName = "strong")})
     private List<WebElement> welcomeText;
     @FindBy(className = "entry-title")
     private WebElement myAccountHeading;
+    @FindBy(linkText = "Dashboard")
+    private WebElement dashboardText;
 
     public MyAccountPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -29,4 +32,9 @@ public class MyAccountPage {
     public String getMyAccountHeading() {
         return myAccountHeading.getText();
     }
+
+    public WebElement getDashboardText() {
+        return dashboardText;
+    }
+
 }
