@@ -17,7 +17,7 @@ public class RegisterTest extends BaseTest {
 
     @Test()
     public void registerUserTest() {
-        ExtentTest test = extentReports.createTest("Register User Test");
+        ExtentTest test = extentReports.createTest("Register user test");
         HomePage homePage = new HomePage(driver);
         RegisterUserPage registerUserPage = homePage.clickMyAccount();
         int random = (int) (Math.random() * 1000);
@@ -38,5 +38,22 @@ public class RegisterTest extends BaseTest {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
         }
+    }
+
+    @Test()
+    public void registerExistingEmailTest() {
+        ExtentTest test = extentReports.createTest("Register using existing email address test");
+        HomePage homePage = new HomePage(driver);
+        RegisterUserPage registerUserPage = homePage.clickMyAccount();
+        String email = "mareczek@testowy.pl";
+        logger.info("Entering email address: " + email);
+        test.log(Status.PASS, "Entering email address: " + email);
+        registerUserPage.enterRegisterEmail(email);
+        String password = "testowy123";
+        logger.info("Entering password: " + password);
+        test.log(Status.PASS, "Entering password: " + password);
+        registerUserPage.enterRegisterPassword(password);
+        MyAccountPage myAccountPage = registerUserPage.clickRegisterButton();
+        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.ACCOUNT_EXISTS);
     }
 }
