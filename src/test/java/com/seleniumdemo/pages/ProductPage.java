@@ -25,6 +25,9 @@ public class ProductPage {
     @FindBys({@FindBy(id = "tab-description"), @FindBy(tagName = "p")})
     private WebElement productDescription;
 
+    @FindBys({@FindBy(xpath = "//div[@role='alert']"), @FindBy(linkText = "View cart")})
+    private WebElement viewCartAlert;
+
     public ProductPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -37,6 +40,11 @@ public class ProductPage {
 
     public String getProductPrice() {
         return productPrice.getText();
+    }
+
+    public CartPage clickViewCartAlert() {
+        viewCartAlert.click();
+        return new CartPage(driver);
     }
 
     public ProductPage switchToDescription() {
