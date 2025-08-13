@@ -18,9 +18,9 @@ public class HomePage {
         this.driver = driver;
     }
 
-    public RegisterUserPage clickMyAccount() {
+    public MyAccountPage clickMyAccount() {
         myAccountLink.click();
-        return new RegisterUserPage(driver);
+        return new MyAccountPage(driver);
     }
 
 }
