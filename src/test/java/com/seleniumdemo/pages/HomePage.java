@@ -12,6 +12,11 @@ public class HomePage {
     @FindBy(xpath = "//span[contains(text(), 'My account')]")
     //@FindBy(css = "li[id='menu-item-22'] a[class='nav__link']")
     private WebElement myAccountLink;
+    @FindBy(xpath = "//span[contains(text(), 'Cart')]")
+    private WebElement cartLink;
+    @FindBy(xpath = "//span[contains(text(), 'Shop')]")
+
+    private WebElement shopLink;
 
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -23,4 +28,13 @@ public class HomePage {
         return new MyAccountPage(driver);
     }
 
+    public CartPage clickCart() {
+        cartLink.click();
+        return new CartPage(driver);
+    }
+
+    public ShopPage clickShop() {
+        shopLink.click();
+        return new ShopPage(driver);
+    }
 }
