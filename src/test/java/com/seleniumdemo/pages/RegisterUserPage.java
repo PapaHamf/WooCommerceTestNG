@@ -21,6 +21,8 @@ public class RegisterUserPage {
     private WebElement loginPassword;
     @FindBy(css = "button[name='login']")
     private WebElement loginButton;
+    @FindBy(className = "woocommerce-error")
+    private WebElement errorContainer;
 
     public RegisterUserPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -40,6 +42,10 @@ public class RegisterUserPage {
         return new MyAccountPage(driver);
     }
 
+    public void clickRegisterButtonInvalid() {
+        registerButton.click();
+    }
+
     public void enterLoginEmail(String email) {
         loginEmail.sendKeys(email);
     }
@@ -53,4 +59,7 @@ public class RegisterUserPage {
         return new MyAccountPage(driver);
     }
 
+    public String getErrorMessage() {
+        return errorContainer.getText();
+    }
 }

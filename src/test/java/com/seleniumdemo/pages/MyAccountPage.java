@@ -19,8 +19,6 @@ public class MyAccountPage {
     private WebElement myAccountHeading;
     @FindBy(linkText = "Dashboard")
     private WebElement dashboardText;
-    @FindBy(className = "woocommerce-error")
-    private WebElement errorContainer;
 
     public static final String ACCOUNT_EXISTS = "Error: An account is already registered with your email address. Please log in.";
 
@@ -41,7 +39,4 @@ public class MyAccountPage {
         return dashboardText;
     }
 
-    public String getErrorMessage() {
-        return errorContainer.getText();
-    }
 }

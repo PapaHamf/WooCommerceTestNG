@@ -53,7 +53,7 @@ public class RegisterTest extends BaseTest {
         logger.info("Entering password: " + password);
         test.log(Status.PASS, "Entering password: " + password);
         registerUserPage.enterRegisterPassword(password);
-        MyAccountPage myAccountPage = registerUserPage.clickRegisterButton();
-        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.ACCOUNT_EXISTS);
+        registerUserPage.clickRegisterButtonInvalid();
+        Assert.assertEquals(registerUserPage.getErrorMessage(), MyAccountPage.ACCOUNT_EXISTS);
     }
 }
