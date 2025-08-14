@@ -120,16 +120,16 @@ public class CartPage {
         }
     }
 
-    public void enterCouponCode(String coupon) {
+    public void setCouponCode(String coupon) {
         couponCode.sendKeys(coupon);
     }
 
-    public CartPage applyCouponCode() {
+    public CartPage clickApplyCouponCode() {
         applyCouponButton.click();
         return this;
     }
 
-    public CartPage updateCart() {
+    public CartPage clickUpdateCart() {
         updateCartButton.click();
         return this;
     }
