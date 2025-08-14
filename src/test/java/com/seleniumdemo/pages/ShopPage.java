@@ -43,7 +43,6 @@ public class ShopPage {
     }
 
     public List<Double> getProductPrices() {
-    public List<Double> getProductPrices() {
         List<Double> prices = new ArrayList<Double>();
         for ( WebElement element: productPrices ) {
             String price = element.getText();
