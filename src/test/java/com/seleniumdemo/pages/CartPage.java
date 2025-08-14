@@ -27,6 +27,20 @@ public class CartPage {
     private List<WebElement> productQuantities;
     @FindBys({@FindBy(className = "cart_item"), @FindBy(className = "product-subtotal")})
     private List<WebElement> productTotals;
+    // Bottom elements
+    @FindBy(id = "coupon_code")
+    private WebElement couponCode;
+    @FindBy(name = "apply_coupon")
+    private WebElement applyCouponButton;
+    @FindBy(name = "update_cart")
+    private WebElement updateCartButton;
+    @FindBy(linkText = "Proceed to checkout")
+    private WebElement checkoutButton;
+    @FindBys({@FindBy(className = "cart_totals"), @FindBy(xpath = "//td[@data-title='Subtotal']")})
+    private WebElement orderSubtotal;
+    @FindBys({@FindBy(className = "cart_totals"), @FindBy(xpath = "//td[@data-title='Total']")})
+    private WebElement orderTotal;
+
     // Quantity field
     private By priceInput = By.xpath("//input[@type='number']");
     // Individual row elements
@@ -35,19 +49,6 @@ public class CartPage {
     private By productPrice = By.xpath("//td[@data-title='Price']");
     private By productQuantity = By.xpath("//td[@data-title='Quantity']");
     private By productTotal = By.xpath("//td[@data-title='Total']");
-    // Bottom elements
-    @FindBy(id = "coupon_code")
-    private WebElement couponCode;
-    @FindBy(name = "apply_coupon")
-    private WebElement applyCouponButton;
-    @FindBy(name = "update_cart")
-    private WebElement updateCartButton;
-    @FindBy(linkText = "\tProceed to checkout")
-    private WebElement checkoutButton;
-    @FindBys({@FindBy(className = "cart_totals "), @FindBy(xpath = "//td[@data-title='Subtotal']")})
-    private WebElement orderSubtotal;
-    @FindBys({@FindBy(className = "cart_totals "), @FindBy(xpath = "//td[@data-title='Total']")})
-    private WebElement orderTotal;
 
     public CartPage(WebDriver driver) {
         PageFactory.initElements(driver, this);

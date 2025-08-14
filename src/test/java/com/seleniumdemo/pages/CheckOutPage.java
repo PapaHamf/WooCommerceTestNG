@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import com.seleniumdemo.utils.SeleniumHelper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -45,15 +46,18 @@ public class CheckOutPage {
     private List<WebElement> productNames;
     @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tbody"), @FindBy(className = "product-total")})
     private List<WebElement> productTotals;
-    private By productName = By.className("product-name");
-    private By productQuantity = By.className("product-quantity");
-    private By productTotal = By.className("product-total");
     @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tfoot"), @FindBy(className = "cart-subtotal")})
     private WebElement orderSubtotal;
     @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tfoot"), @FindBy(className = "order-total")})
     private WebElement orderTotal;
     @FindBy(id = "place_order")
     private WebElement placeOrderButton;
+
+    private By table = By.className("shop_table");
+    private By tableBody = By.tagName("tbody");
+    private By productName = By.className("product-name");
+    private By productQuantity = By.className("product-quantity");
+    private By productTotal = By.className("product-total");
 
     public CheckOutPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -110,12 +114,21 @@ public class CheckOutPage {
         emailAddress.sendKeys(email);
     }
 
+    public WebElement getTable() {
+        return driver.findElement(table);
+    }
+
+    public WebElement getTableBody() {
+        return getTable().findElement(tableBody);
+    }
+
     public List<WebElement> getProductsList() {
         return productsList;
     }
 
     public List<String> getProductNames() {
         List<String> names = new ArrayList<String>();
+        SeleniumHelper.waitForElementToExist(driver, tableBody);
         for ( WebElement element: productNames ) {
             String name = element.getText();
             names.add(name.substring(0, name.indexOf("×")).strip());
@@ -125,21 +138,28 @@ public class CheckOutPage {
 
     public List<Double> getProductTotals() {
         List<Double> totals = new ArrayList<Double>();
+        SeleniumHelper.waitForElementToExist(driver, tableBody);
         for ( WebElement element: productTotals ) {
             String total = element.getText();
-            totals.add(Double.parseDouble(total.substring(0, total.indexOf(" "))));
+            totals.add(Double.parseDouble(total.substring(0, total
+                    .indexOf(" "))
+                    .replace(",", ".")));
         }
         return totals;
     }
 
     public Double getOrderSubtotal() {
         String subtotal = orderSubtotal.findElement(By.className("amount")).getText();
-        return Double.parseDouble(subtotal.substring(0, subtotal.indexOf(" ")));
+        return Double.parseDouble(subtotal.substring(0, subtotal
+                .indexOf(" "))
+                .replace(",", "."));
     }
 
     public Double getOrderTotal() {
         String total = orderTotal.findElement(By.className("amount")).getText();
-        return Double.parseDouble(total.substring(0, total.indexOf(" ")));
+        return Double.parseDouble(total.substring(0, total
+                .indexOf(" "))
+                .replace(",", "."));
     }
 
     public OrderSummaryPage clickPlaceOrder() {

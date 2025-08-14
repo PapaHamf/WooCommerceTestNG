@@ -46,7 +46,9 @@ public class ShopPage {
         List<Double> prices = new ArrayList<Double>();
         for ( WebElement element: productPrices ) {
             String price = element.getText();
-            prices.add(Double.parseDouble(price.substring(0, price.indexOf(" "))));
+            prices.add(Double.parseDouble(price.substring(0, price
+                    .indexOf(" "))
+                    .replace(",", ".")));
         }
         return prices;
     }
@@ -58,7 +60,7 @@ public class ShopPage {
 
     public ShopPage clickProductButtonName(String productName) {
         for ( int i = 0; i < getProductNames().size(); i++ ) {
-            if ( getProductNames().equals(productName) ) {
+            if ( getProductNames().get(i).equals(productName) ) {
                 productButtons.get(i).click();
             }
         }
