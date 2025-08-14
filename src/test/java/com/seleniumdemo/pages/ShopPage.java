@@ -42,11 +42,12 @@ public class ShopPage {
                 .collect(Collectors.toList());
     }
 
-    public List<Integer> getProductPrices() {
-        List<Integer> prices = new ArrayList<Integer>();
+    public List<Double> getProductPrices() {
+    public List<Double> getProductPrices() {
+        List<Double> prices = new ArrayList<Double>();
         for ( WebElement element: productPrices ) {
             String price = element.getText();
-            prices.add(Integer.parseInt(price.substring(0, price.indexOf(" "))));
+            prices.add(Double.parseDouble(price.substring(0, price.indexOf(" "))));
         }
         return prices;
     }
