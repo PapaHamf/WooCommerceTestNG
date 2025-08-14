@@ -1,0 +1,149 @@
+package com.seleniumdemo.pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class CheckOutPage {
+
+    protected WebDriver driver;
+
+    @FindBy(id = "billing_first_name")
+    private WebElement firstName;
+    @FindBy(id = "billing_last_name")
+    private WebElement lastName;
+    @FindBy(id = "billing_company")
+    private WebElement companyName;
+    @FindBy(id = "select2-billing_country-container")
+    private WebElement selectCountry;
+    @FindBy(id = "order_comments")
+    private WebElement orderComments;
+    @FindBy(id = "billing_address_1")
+    private WebElement streetAddress;
+    // optional (suite, appartment number)
+    @FindBy(id = "billing_address_2")
+    private WebElement apartmentNumber;
+    @FindBy(id = "billing_postcode")
+    private WebElement postCode;
+    @FindBy(id = "billing_city")
+    private WebElement city;
+    @FindBy(id = "billing_phone")
+    private WebElement phoneNumber;
+    @FindBy(id = "billing_email")
+    private WebElement emailAddress;
+    // Order summary
+    @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tbody"), @FindBy(className = "cart-item")})
+    private List<WebElement> productsList;
+    @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tbody"), @FindBy(className = "product-name")})
+    private List<WebElement> productNames;
+    @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tbody"), @FindBy(className = "product-total")})
+    private List<WebElement> productTotals;
+    private By productName = By.className("product-name");
+    private By productQuantity = By.className("product-quantity");
+    private By productTotal = By.className("product-total");
+    @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tfoot"), @FindBy(className = "cart-subtotal")})
+    private WebElement orderSubtotal;
+    @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tfoot"), @FindBy(className = "order-total")})
+    private WebElement orderTotal;
+    @FindBy(id = "place_order")
+    private WebElement placeOrderButton;
+
+    public CheckOutPage(WebDriver driver) {
+        PageFactory.initElements(driver, this);
+        this.driver = driver;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName.sendKeys(firstName);
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName.sendKeys(lastName);
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName.sendKeys(companyName);
+    }
+
+    public void selectCountryByIndex(int index) {
+        Select select = new Select(selectCountry);
+        select.selectByIndex(index);
+    }
+
+    public void selectCountryByName(String countryName) {
+        Select select = new Select(selectCountry);
+        select.selectByVisibleText(countryName);
+    }
+
+    public void setOrderComments(String comments) {
+        orderComments.sendKeys(comments);
+    }
+
+    public void setStreetAddress(String streetAddress) {
+        this.streetAddress.sendKeys(streetAddress);
+    }
+
+    public void setApartmentNumber(String apartmentNumber) {
+        this.apartmentNumber.sendKeys(apartmentNumber);
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode.sendKeys(postCode);
+    }
+
+    public void setCity(String city) {
+        this.city.sendKeys(city);
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber.sendKeys(phoneNumber);
+    }
+
+    public void setEmailAddress(String email) {
+        emailAddress.sendKeys(email);
+    }
+
+    public List<WebElement> getProductsList() {
+        return productsList;
+    }
+
+    public List<String> getProductNames() {
+        List<String> names = new ArrayList<String>();
+        for ( WebElement element: productNames ) {
+            String name = element.getText();
+            names.add(name.substring(0, name.indexOf("×")).strip());
+        }
+        return names;
+    }
+
+    public List<Double> getProductTotals() {
+        List<Double> totals = new ArrayList<Double>();
+        for ( WebElement element: productTotals ) {
+            String total = element.getText();
+            totals.add(Double.parseDouble(total.substring(0, total.indexOf(" "))));
+        }
+        return totals;
+    }
+
+    public Double getOrderSubtotal() {
+        String subtotal = orderSubtotal.findElement(By.className("amount")).getText();
+        return Double.parseDouble(subtotal.substring(0, subtotal.indexOf(" ")));
+    }
+
+    public Double getOrderTotal() {
+        String total = orderTotal.findElement(By.className("amount")).getText();
+        return Double.parseDouble(total.substring(0, total.indexOf(" ")));
+    }
+
+    public OrderSummaryPage clickPlaceOrder() {
+        placeOrderButton.click();
+        return new OrderSummaryPage(driver);
+    }
+}
