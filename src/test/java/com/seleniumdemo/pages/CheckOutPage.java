@@ -2,6 +2,7 @@ package com.seleniumdemo.pages;
 
 import com.seleniumdemo.utils.SeleniumHelper;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,7 +23,7 @@ public class CheckOutPage {
     private WebElement lastName;
     @FindBy(id = "billing_company")
     private WebElement companyName;
-    @FindBy(id = "select2-billing_country-container")
+    @FindBy(id = "billing_country")
     private WebElement selectCountry;
     @FindBy(id = "order_comments")
     private WebElement orderComments;
@@ -58,6 +59,7 @@ public class CheckOutPage {
     private By productName = By.className("product-name");
     private By productQuantity = By.className("product-quantity");
     private By productTotal = By.className("product-total");
+    private By placeOrderBtn = By.id("place_order");
 
     public CheckOutPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -163,7 +165,10 @@ public class CheckOutPage {
     }
 
     public OrderSummaryPage clickPlaceOrder() {
-        placeOrderButton.click();
+        SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(placeOrderBtn));
+        driver.findElement(placeOrderBtn).click();
         return new OrderSummaryPage(driver);
     }
 }
