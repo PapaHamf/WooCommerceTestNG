@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -7,10 +8,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
+import java.util.Random;
 
 public class HomePage {
 
     protected WebDriver driver;
+    final String[] ARTICLES = {"post-41", "post-39"};
 
     @FindBy(xpath = "//span[contains(text(), 'My account')]")
     //@FindBy(css = "li[id='menu-item-22'] a[class='nav__link']")
@@ -97,6 +100,14 @@ public class HomePage {
     public CheckOutPage clickCheckoutButton() {
         checkOutButton.click();
         return new CheckOutPage(driver);
+    }
+
+    public PostPage clickRandomArticle() {
+        Random random = new Random();
+        driver
+                .findElement(By.id(ARTICLES[random.nextInt(ARTICLES.length)]))
+                .click();
+        return new PostPage(driver);
     }
 
 }
