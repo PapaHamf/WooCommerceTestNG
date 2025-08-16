@@ -19,6 +19,14 @@ public class UserDashboardPage {
     private WebElement myAccountHeading;
     @FindBy(linkText = "Dashboard")
     private WebElement dashboardText;
+    @FindBy(linkText = "Orders")
+    private WebElement ordersLink;
+    @FindBy(linkText = "Addresses")
+    private WebElement addressesLink;
+    @FindBy(linkText = "Account details")
+    private WebElement accountDetailsLink;
+    @FindBy(linkText = "Logout")
+    private WebElement logoutLink;
 
     public UserDashboardPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -35,6 +43,26 @@ public class UserDashboardPage {
 
     public WebElement getDashboardText() {
         return dashboardText;
+    }
+
+    public OrdersPage clickOrdersLink() {
+        ordersLink.click();
+        return new OrdersPage(driver);
+    }
+
+    public AddressesPage clickAddressesLink() {
+        addressesLink.click();
+        return new AddressesPage(driver);
+    }
+
+    public AccountDetailsPage clickAccountDetailsLink() {
+        accountDetailsLink.click();
+        return new AccountDetailsPage(driver);
+    }
+
+    public MyAccountPage clickLogoutLink() {
+        logoutLink.click();
+        return new MyAccountPage(driver);
     }
 
 }
