@@ -165,9 +165,9 @@ public class CheckOutPage {
     }
 
     public OrderSummaryPage clickPlaceOrder() {
-        SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(placeOrderBtn));
+        SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
         driver.findElement(placeOrderBtn).click();
         return new OrderSummaryPage(driver);
     }
