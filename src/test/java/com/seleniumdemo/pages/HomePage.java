@@ -33,8 +33,11 @@ public class HomePage {
     private WebElement viewCartButton;
     @FindBy(linkText = "Checkout")
     private WebElement checkOutButton;
-    // dodać remove button
-    // remove_from_cart_button class
+    @FindBy(className = "remove_from_cart_button")
+    private List<WebElement> removeIcons;
+    @FindBy(className = "mini_cart_item")
+    private List<WebElement> widgetItems;
+    By itemName = By.xpath("//a[2]");
 
     public HomePage(WebDriver driver) {
         PageFactory.initElements(driver, this);
@@ -89,12 +92,29 @@ public class HomePage {
     }
 
     public String getCartWidgetTotal() {
+        displayCartWidget();
         return productsTotal.getText();
     }
 
     public CartPage clickViewCartButton() {
+        displayCartWidget();
         viewCartButton.click();
         return new CartPage(driver);
+    }
+
+    public void removeProductByNumber(int index) {
+        displayCartWidget();
+        removeIcons.get(index).click();
+    }
+
+    public void removeProductByName(String name) {
+        displayCartWidget();
+        for ( int i = 0; i < widgetItems.size(); i++ ) {
+            if ( widgetItems.get(i).findElement(itemName).getText().contains(name) ) {
+                removeIcons.get(i).click();
+                break;
+            }
+        }
     }
 
     public CheckOutPage clickCheckoutButton() {
