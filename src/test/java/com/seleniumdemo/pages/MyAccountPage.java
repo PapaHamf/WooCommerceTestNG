@@ -24,8 +24,14 @@ public class MyAccountPage {
     @FindBy(className = "woocommerce-error")
     private WebElement errorContainer;
 
+    // Error messages
     public static final String ACCOUNT_EXISTS = "Error: An account is already registered with your email address. Please log in.";
     public static final String INVALID_PASS_USER = "ERROR: Incorrect username or password.";
+    public static final String EMAIL_ADDR_WITHOUT_SIGN = "Uwzględnij znak „@” w adresie e-mail. W adresie „dupa” brakuje znaku „@”."
+    public static final String EMAIL_ADDR_WITH_SIGN_ONLY = "Podaj część przed znakiem „@”. Adres „@” jest niepełny.";
+
+    // Javascripts
+    private static final String VALIDATION_MESSAGE_JS = "document.getElementById(\"reg_email\").validationMessage";
 
     public MyAccountPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
