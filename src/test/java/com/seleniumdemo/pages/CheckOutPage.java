@@ -61,6 +61,9 @@ public class CheckOutPage {
     private By productTotal = By.className("product-total");
     private By placeOrderBtn = By.id("place_order");
 
+    // Javascripts
+    private static final String SCROLL_TO_ORDER_BUTTON_JS = "arguments[0].scrollIntoView(true);";
+
     public CheckOutPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
@@ -166,7 +169,7 @@ public class CheckOutPage {
 
     public OrderSummaryPage clickPlaceOrder() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(placeOrderBtn));
+        js.executeScript(SCROLL_TO_ORDER_BUTTON, driver.findElement(placeOrderBtn));
         SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
         driver.findElement(placeOrderBtn).click();
         return new OrderSummaryPage(driver);
