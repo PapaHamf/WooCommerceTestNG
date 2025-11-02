@@ -57,4 +57,47 @@ public class TestDataProvider {
         List<String[]> myEntries = reader.readAll();
         return myEntries;
     }
+
+    public String generatePasswordShorterThan12Chars(){
+        String password = (faker.letterify("??????", false))
+                + (faker.letterify("??", true))
+                + (faker.numerify("##"))
+                + generateRandomSpecialChar();
+        return password;
+    }
+
+    public String generatePasswordWithoutUpperCase(){
+        String password = (faker.letterify("?????????", false))
+                + (faker.numerify("##"))
+                + generateRandomSpecialChar();
+        return password;
+    }
+
+    public String generatePasswordWithoutNumber(){
+        String password = (faker.letterify("?????????", false))
+                + (faker.letterify("??", true))
+                + generateRandomSpecialChar();
+        return password;
+    }
+
+    public String generatePasswordWithoutSpecialSymbol() {
+        String password = (faker.letterify("?????????", false))
+                + (faker.letterify("??", true))
+                + (faker.numerify("##"));
+        return password;
+    }
+
+    public String generateCorrectPassword() {
+        String password = (faker.letterify("?????????", false))
+                + (faker.letterify("??", true))
+                + (faker.numerify("##"))
+                + generateRandomSpecialChar();
+        return password;
+    }
+
+    private Character generateRandomSpecialChar() {
+        String chars = "!@#$%^&*()-_=+[]{};:,.<>?";
+        int index = random.nextInt(chars.length()-1);
+        return chars.charAt(index);
+    }
 }
