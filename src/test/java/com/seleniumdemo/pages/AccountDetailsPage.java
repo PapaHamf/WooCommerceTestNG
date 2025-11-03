@@ -27,7 +27,7 @@ public class AccountDetailsPage {
     private WebElement saveChangesButton;
 
     /**
-     * Class that holds th locators of the Account Details page and methods to get its webelements.
+     * Class that holds the locators of the Account Details page and methods to get its webelements.
      * @param driver
      */
     public AccountDetailsPage(WebDriver driver) {
@@ -37,7 +37,7 @@ public class AccountDetailsPage {
 
     /**
      * Sets the first name field on the page.
-     * @param firstName Text describing the first name.
+     * @param firstName Text containing the first name.
      */
     public void setFirstName(String firstName) {
         this.firstName.sendKeys(firstName);
@@ -45,7 +45,7 @@ public class AccountDetailsPage {
 
     /**
      * Sets the last name field on the page.
-     * @param lastName Text describing the last name.
+     * @param lastName Text containing the last name.
      */
     public void setLastName(String lastName) {
         this.lastName.sendKeys(lastName);
@@ -53,7 +53,7 @@ public class AccountDetailsPage {
 
     /**
      * Sets the display name field on the page.
-     * @param displayName Text describing the display name of the user.
+     * @param displayName Text containing the display name of the user.
      */
     public void setDisplayName(String displayName) {
         this.displayName.sendKeys(displayName);
@@ -61,7 +61,7 @@ public class AccountDetailsPage {
 
     /**
      * Sets the email address field on the page.
-     * @param emailAddress Text describing the email address of the user.
+     * @param emailAddress Text containing the email address of the user.
      */
     public void setEmailAddress(String emailAddress) {
         this.emailAddress.sendKeys(emailAddress);
