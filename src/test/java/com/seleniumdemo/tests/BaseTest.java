@@ -15,7 +15,7 @@ import java.time.Duration;
 public class BaseTest {
 
     protected static WebDriver driver;
-    // dodanie jako pola, aby można było używać we wszystkich metodach
+    // Added as fields to be able to use them in all methods.
     protected static ExtentSparkReporter sparkReporter;
     protected static ExtentReports extentReports;
 
