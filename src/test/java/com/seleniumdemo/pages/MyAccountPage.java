@@ -33,45 +33,83 @@ public class MyAccountPage {
     // Javascripts
     private static final String VALIDATION_MESSAGE_JS = "document.getElementById(\"reg_email\").validationMessage";
 
+    /**
+     * Class that holds the locators of the MyAccount page and methods to get its webelements.
+     * @param driver
+     */
     public MyAccountPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
+    /**
+     * Sets the register user email field on the page.
+     * @param email Text containing the email address used to register user.
+     */
     public void enterRegisterEmail(String email) {
         registerEmail.sendKeys(email);
     }
 
+    /**
+     * Sets the register user password field on the page.
+     * @param password Text containing the password used to register user.
+     */
     public void enterRegisterPassword(String password) {
         registerPassword.sendKeys(password);
     }
 
+    /**
+     * Clicks the Register button on the page.
+     * @return UserDashboard page object.
+     */
     public UserDashboardPage clickRegisterButton() {
         registerButton.click();
         return new UserDashboardPage(driver);
     }
 
+    /**
+     * Clicks the Register button on the page and does not return the UserDashboard page object.
+     */
     public void clickRegisterButtonInvalid() {
         registerButton.click();
     }
 
+    /**
+     * Sets the login user email field on the page.
+     * @param email Text containing the email address used to login user.
+     */
     public void enterLoginEmail(String email) {
         loginEmail.sendKeys(email);
     }
 
+    /**
+     * Sets the login user password field on the page.
+     * @param password Text containing the password used to login user.
+     */
     public void enterLoginPassword(String password) {
         loginPassword.sendKeys(password);
     }
 
+    /**
+     * Clicks the Login button on the page.
+     * @return UserDashboard page object.
+     */
     public UserDashboardPage clickLoginButton() {
         loginButton.click();
         return new UserDashboardPage(driver);
     }
 
+    /**
+     * Clicks the Login button on the page and does not return the UserDashboard page object.
+     */
     public void  clickLoginButtonInvalid() {
         loginButton.click();
     }
 
+    /**
+     * Returns the validation errors of the login & register forms.
+     * @return Error message text.
+     */
     public String getErrorMessage() {
         return errorContainer.getText();
     }
