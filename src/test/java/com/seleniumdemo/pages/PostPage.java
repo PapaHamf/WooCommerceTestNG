@@ -42,42 +42,77 @@ public class PostPage {
     By commAuthor = By.className("comment-author");
     By commText = By.tagName("p");
 
-
+    /**
+     * Class that holds the locators of the Post page and methods to get its webelements.
+     * @param driver
+     */
     public PostPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
+    /**
+     * Sets the comment field on the post page.
+     * @param comment Text containing the comment.
+     */
     public void setComment(String comment) {
         this.comment.sendKeys(comment);
     }
 
+    /**
+     * Sets the author name of the comment.
+     * @param author Text containing the author name.
+     */
     public void setAuthor(String author) {
         this.author.sendKeys(author);
     }
 
+    /**
+     * Sets the email address of comment author.
+     * @param email Text containing the email address.
+     */
     public void setEmail(String email) {
         this.email.sendKeys(email);
     }
 
+    /**
+     * Sets the URL address of comment author.
+     * @param url Text containing the URL address.
+     */
     public void setURL(String url) {
         this.urlAddress.sendKeys(url);
     }
 
+    /**
+     * Clicks the Submit button on the post page.
+     * @return Post page object.
+     */
     public PostPage clickSubmitButton() {
         submitButton.click();
         return this;
     }
 
+    /**
+     * Clicks the Cancel button on the post page.
+     * @return Post page object.
+     */
     public PostPage clickCancelComment() {
         cancelCommentLink.click();
         return this;
     }
 
+    /**
+     * Returns the list of the comments on the post page.
+     * @return List of comments webelements.
+     */
     public List<WebElement> getComments() {
         return comments;
     }
 
+    /**
+     * Returns the list of the comment texts on the post page.
+     * @return List of comments texts.
+     */
     public List<String> getCommentsText() {
         List<String> commentsText = new ArrayList<String>();
         for ( WebElement element: commentContent ) {
@@ -86,6 +121,10 @@ public class PostPage {
         return commentsText;
     }
 
+    /**
+     * Returns the list of the comment authors on the post page.
+     * @return List of comments authors.
+     */
     public List<String> getCommentsAuthor() {
         List<String> commentsAuthor = new ArrayList<String>();
         for ( WebElement element: this.commentsAuthor ) {
@@ -94,6 +133,10 @@ public class PostPage {
         return commentsAuthor;
     }
 
+    /**
+     * Returns the list of the comment replies on the post page.
+     * @return List of comments replies.
+     */
     public List<String> getCommentReplies(String author, String commentText) {
         List<String> commentReplies = new ArrayList<String>();
         for ( int i = 0; i < getComments().size(); i++ ) {
