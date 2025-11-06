@@ -1,10 +1,11 @@
-package com.seleniumdemo.tests;
+package com.seleniumdemo.archive;
 
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.seleniumdemo.pages.HomePage;
 import com.seleniumdemo.pages.MyAccountPage;
 import com.seleniumdemo.pages.UserDashboardPage;
+import com.seleniumdemo.tests.BaseTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
