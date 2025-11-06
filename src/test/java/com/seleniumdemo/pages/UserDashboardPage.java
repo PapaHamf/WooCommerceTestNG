@@ -28,38 +28,70 @@ public class UserDashboardPage {
     @FindBy(linkText = "Logout")
     private WebElement logoutLink;
 
+    /**
+     * Class that holds the locators of the User Dashboard page and methods to get its webelements.
+     * @param driver
+     */
     public UserDashboardPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
+    /**
+     * Returns the welcome message text containing the username.
+     * @return Welcome message text.
+     */
     public String getWelcomeText() {
         return welcomeText.get(1).getText();
     }
 
+    /**
+     * Returns the User Dashboard page heading.
+     * @return Header text.
+     */
     public String getMyAccountHeading() {
         return myAccountHeading.getText();
     }
 
-    public WebElement getDashboardText() {
+    /**
+     * Returns the Dashboard link on the User Dashboard page.
+     * @return Dashboard webelement.
+     */
+    public WebElement getDashboardLink() {
         return dashboardText;
     }
 
+    /**
+     * Clicks the Orders link on the User Dashboard page.
+     * @return Orders page object.
+     */
     public OrdersPage clickOrdersLink() {
         ordersLink.click();
         return new OrdersPage(driver);
     }
 
+    /**
+     * Clicks the Adresses link on the User Dashboard page.
+     * @return Adresses page object.
+     */
     public AddressesPage clickAddressesLink() {
         addressesLink.click();
         return new AddressesPage(driver);
     }
 
+    /**
+     * Clicks the Account Details link on the User Dashboard page.
+     * @return Account Details page object.
+     */
     public AccountDetailsPage clickAccountDetailsLink() {
         accountDetailsLink.click();
         return new AccountDetailsPage(driver);
     }
 
+    /**
+     * Clicks the Logout link on the User Dashboard page.
+     * @return My Account page object.
+     */
     public MyAccountPage clickLogoutLink() {
         logoutLink.click();
         return new MyAccountPage(driver);
