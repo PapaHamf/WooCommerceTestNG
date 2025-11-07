@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,11 +28,13 @@ public class MyAccountPage {
     // Error messages
     public static final String ACCOUNT_EXISTS = "Error: An account is already registered with your email address. Please log in.";
     public static final String INVALID_PASS_USER = "ERROR: Incorrect username or password.";
-    public static final String EMAIL_ADDR_WITHOUT_SIGN = "Uwzględnij znak „@” w adresie e-mail. W adresie „dupa” brakuje znaku „@”."
+    public static final String INVALID_EMAIL = "Error: Please provide a valid email address.";
+    public static final String INVALID_PASSWORD = "Error: Please enter an account password.";
+    public static final String EMAIL_ADDR_WITHOUT_SIGN = "Uwzględnij znak „@” w adresie e-mail. W adresie „xxx” brakuje znaku „@”.";
     public static final String EMAIL_ADDR_WITH_SIGN_ONLY = "Podaj część przed znakiem „@”. Adres „@” jest niepełny.";
 
     // Javascripts
-    private static final String VALIDATION_MESSAGE_JS = "document.getElementById(\"reg_email\").validationMessage";
+    private static final String VALIDATION_MESSAGE_JS = "return document.getElementById(\"reg_email\").validationMessage";
 
     /**
      * Class that holds the locators of the MyAccount page and methods to get its webelements.
@@ -112,5 +115,14 @@ public class MyAccountPage {
      */
     public String getErrorMessage() {
         return errorContainer.getText();
+    }
+
+    /**
+     * Returns the validation errors of login & register forms displayed in tooltips.
+     * @return Error message text.
+     */
+    public String getTooltipErrorMessage() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        return (String) js.executeScript(VALIDATION_MESSAGE_JS);
     }
 }
