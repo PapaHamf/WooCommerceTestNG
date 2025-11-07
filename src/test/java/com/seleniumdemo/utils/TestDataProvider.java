@@ -67,24 +67,22 @@ public class TestDataProvider {
         return password;
     }
 
-    public String generatePasswordWithoutUpperCase(){
+    public String generatePlainPasswordShorterThan12Chars() {
+        String password = (faker.letterify("?????????", false))
+                + (faker.letterify("??", true));
+        return password;
+    }
+
+    public String generatePasswordWithoutUpperCase() {
         String password = (faker.letterify("?????????", false))
                 + (faker.numerify("##"))
                 + generateRandomSpecialChar();
         return password;
     }
 
-    public String generatePasswordWithoutNumber(){
-        String password = (faker.letterify("?????????", false))
-                + (faker.letterify("??", true))
-                + generateRandomSpecialChar();
-        return password;
-    }
-
-    public String generatePasswordWithoutSpecialSymbol() {
-        String password = (faker.letterify("?????????", false))
-                + (faker.letterify("??", true))
-                + (faker.numerify("##"));
+    public String generatePasswordWithoutOtherCharacters() {
+        String password = (faker.letterify("??????????", false))
+                + (faker.letterify("??", true));
         return password;
     }
 
