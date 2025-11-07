@@ -53,4 +53,43 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getTooltipErrorMessage(),
                 MyAccountPage.EMAIL_ADDR_WITHOUT_SIGN.replace("xxx", invalidEmail));
     }
+
+    @Test()
+    public void registerUserWithOnlyAtSign() {
+        ExtentTest test = extentReports.createTest("Register user with invalid email " +
+                "address containing only @ char");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        myAccountPage.enterRegisterEmail("@");
+        myAccountPage.enterRegisterPassword(dataProvider.generateCorrectPassword());
+        myAccountPage.clickRegisterButton();
+        Assert.assertEquals(myAccountPage.getTooltipErrorMessage(), MyAccountPage.EMAIL_ADDR_WITH_SIGN_ONLY);
+    }
+
+    @Test()
+    public void registerUserWithTooShortPassword() {
+        ExtentTest test = extentReports.createTest("Register user with too short password");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        myAccountPage.enterRegisterEmail(dataProvider.faker.internet().emailAddress());
+        myAccountPage.enterRegisterPassword(dataProvider.generatePlainPasswordShorterThan12Chars());
+        Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_WEAK);
+    }
+
+    @Test()
+    public void regsiterUserWithoutDifferentCharacters() {
+        ExtentTest test = extentReports.createTest("Register user with password without" +
+                " upper case letters, numbers and special characters");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        myAccountPage.enterRegisterEmail(dataProvider.faker.internet().emailAddress());
+        myAccountPage.enterRegisterPassword(dataProvider.generatePasswordWithoutOtherCharacters());
+        Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_VERY_WEAK);
+    }
 }
