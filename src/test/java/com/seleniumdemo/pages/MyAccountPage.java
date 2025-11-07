@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,6 +26,8 @@ public class MyAccountPage {
     @FindBy(className = "woocommerce-error")
     private WebElement errorContainer;
 
+    private By passwordStrength = By.className("woocommerce-password-strength");
+
     // Error messages
     public static final String ACCOUNT_EXISTS = "Error: An account is already registered with your email address. Please log in.";
     public static final String INVALID_PASS_USER = "ERROR: Incorrect username or password.";
@@ -32,6 +35,8 @@ public class MyAccountPage {
     public static final String INVALID_PASSWORD = "Error: Please enter an account password.";
     public static final String EMAIL_ADDR_WITHOUT_SIGN = "Uwzględnij znak „@” w adresie e-mail. W adresie „xxx” brakuje znaku „@”.";
     public static final String EMAIL_ADDR_WITH_SIGN_ONLY = "Podaj część przed znakiem „@”. Adres „@” jest niepełny.";
+    public static final String PASSWORD_VERY_WEAK = "Very weak - Please enter a stronger password.";
+    public static final String PASSWORD_WEAK = "Weak - Please enter a stronger password.";
 
     // Javascripts
     private static final String VALIDATION_MESSAGE_JS = "return document.getElementById(\"reg_email\").validationMessage";
@@ -124,5 +129,13 @@ public class MyAccountPage {
     public String getTooltipErrorMessage() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         return (String) js.executeScript(VALIDATION_MESSAGE_JS);
+    }
+
+    /**
+     * Returns the password strength verification message.
+     * @return Error message text.
+     */
+    public String getPasswordStrengthMessage() {
+        return driver.findElement(passwordStrength).getText();
     }
 }
