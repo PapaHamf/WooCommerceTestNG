@@ -19,7 +19,8 @@ import java.util.Random;
 
 public class TestDataProvider {
 
-    private Faker faker;
+    // Made public to use it in tests.
+    public Faker faker;
     private Random random;
 
     public TestDataProvider() {
