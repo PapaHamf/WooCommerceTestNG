@@ -67,8 +67,8 @@ public class TestDataProvider {
         return password;
     }
 
-    public String generatePlainPasswordShorterThan12Chars() {
-        String password = (faker.letterify("?????????", false))
+    public String generatePlainPasswordShorterThan8Chars() {
+        String password = (faker.letterify("?????", false))
                 + (faker.letterify("??", true));
         return password;
     }
@@ -81,8 +81,7 @@ public class TestDataProvider {
     }
 
     public String generatePasswordWithoutOtherCharacters() {
-        String password = (faker.letterify("??????????", false))
-                + (faker.letterify("??", true));
+        String password = (faker.letterify("???????", false));
         return password;
     }
 
