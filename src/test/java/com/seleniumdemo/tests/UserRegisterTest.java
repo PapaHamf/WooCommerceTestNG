@@ -133,8 +133,7 @@ public class UserRegisterTest extends BaseTest {
 
     @Test()
     public void registerUserWithValidData() {
-        ExtentTest test = extentReports.createTest("Register user with password without" +
-                " upper case letters, numbers and special characters");
+        ExtentTest test = extentReports.createTest("Register user with correct email address and password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
         test.log(Status.PASS, "Entering the My Account page");
