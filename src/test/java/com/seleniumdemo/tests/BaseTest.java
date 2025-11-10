@@ -2,15 +2,15 @@ package com.seleniumdemo.tests;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.opencsv.exceptions.CsvException;
 import com.seleniumdemo.utils.DriverFactory;
+import com.seleniumdemo.utils.TestDataProvider;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.*;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.List;
 
 public class BaseTest {
 
@@ -42,6 +42,20 @@ public class BaseTest {
     @AfterMethod
     public void tearDown() {
         driver.quit();
+    }
+
+    @DataProvider()
+    public Object[][] userLogins() throws IOException, CsvException {
+        List<String[]> data = TestDataProvider.readCSV("src/test/resources/userlogins.csv");
+        // number of users records
+        int noOfRecords = data.size();
+        // number of properties in user record
+        int noOfProperties = data.getFirst().length;
+        Object[][] userLogins = new Object[noOfRecords][noOfProperties];
+        for (int i = 0; i <= noOfRecords - 1; i++) {
+            System.arraycopy(data.get(i), 0, userLogins[i], 0, noOfProperties);
+        }
+        return userLogins;
     }
 
 }
