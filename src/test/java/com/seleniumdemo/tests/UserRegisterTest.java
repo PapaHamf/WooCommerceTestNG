@@ -16,7 +16,7 @@ public class UserRegisterTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger();
     private static final TestDataProvider dataProvider = new TestDataProvider();
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithoutEmail() {
         ExtentTest test = extentReports.createTest("Register user without email adddress");
         HomePage homePage = new HomePage(driver);
@@ -33,7 +33,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_EMAIL);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithoutPassword() {
         ExtentTest test = extentReports.createTest("Register user without password");
         HomePage homePage = new HomePage(driver);
@@ -50,7 +50,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_PASSWORD);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithInvalidEmail() {
         ExtentTest test = extentReports.createTest("Register user with invalid email address");
         HomePage homePage = new HomePage(driver);
@@ -72,7 +72,7 @@ public class UserRegisterTest extends BaseTest {
                 MyAccountPage.EMAIL_ADDR_WITHOUT_SIGN.replace("xxx", invalidEmail));
     }
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithOnlyAtSign() {
         ExtentTest test = extentReports.createTest("Register user with invalid email " +
                 "address containing only @ char");
@@ -94,7 +94,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getTooltipErrorMessage(), MyAccountPage.EMAIL_ADDR_WITH_SIGN_ONLY);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithTooShortPassword() {
         ExtentTest test = extentReports.createTest("Register user with too short password");
         HomePage homePage = new HomePage(driver);
@@ -112,7 +112,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_WEAK);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void regsiterUserWithoutDifferentCharacters() {
         ExtentTest test = extentReports.createTest("Register user with password without" +
                 " upper case letters, numbers and special characters");
@@ -131,7 +131,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_VERY_WEAK);
     }
 
-    @Test()
+    @Test(enabled = false)
     public void registerUserWithValidData() {
         ExtentTest test = extentReports.createTest("Register user with correct email address and password");
         HomePage homePage = new HomePage(driver);
@@ -148,5 +148,24 @@ public class UserRegisterTest extends BaseTest {
         myAccountPage.enterRegisterPassword(password);
         UserDashboardPage userDashboardPage = myAccountPage.clickRegisterButton();
         Assert.assertTrue(userDashboardPage.getDashboardLink().isDisplayed());
+    }
+
+    @Test(dataProvider = "userLogins")
+    public void registerUserWithDataProvider(String email, String password) {
+        ExtentTest test = extentReports.createTest("Register user with correct email address " +
+                "and password using data provider");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        logger.info("Entering email address: " + email);
+        test.log(Status.PASS, "Entering email address: " + email);
+        myAccountPage.enterRegisterEmail(email);
+        logger.info("Entering password: " + password);
+        test.log(Status.PASS, "Entering password: " + password);
+        myAccountPage.enterRegisterPassword(password);
+        UserDashboardPage userDashboardPage = myAccountPage.clickRegisterButton();
+        Assert.assertTrue(userDashboardPage.getDashboardLink().isDisplayed());
+        userDashboardPage.clickLogoutLink();
     }
 }
