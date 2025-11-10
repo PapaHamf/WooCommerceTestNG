@@ -55,8 +55,7 @@ public class TestDataProvider {
 
     public static List<String[]> readCSV(String fileName) throws CsvException, IOException {
         CSVReader reader = new CSVReaderBuilder(new FileReader(fileName)).build();
-        List<String[]> myEntries = reader.readAll();
-        return myEntries;
+        return reader.readAll();
     }
 
     public String generatePasswordShorterThan12Chars(){
@@ -98,4 +97,5 @@ public class TestDataProvider {
         int index = random.nextInt(chars.length()-1);
         return chars.charAt(index);
     }
+
 }
