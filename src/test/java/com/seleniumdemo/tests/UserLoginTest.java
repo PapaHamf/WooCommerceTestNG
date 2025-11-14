@@ -69,6 +69,71 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test()
-    public void 
+    public void loginUserWithoutEmailAddress() {
+        ExtentTest test = extentReports.createTest("Login user without email address");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        String password = dataProvider.generateCorrectPassword();
+        logger.info("Entering the password: " + password);
+        test.log(Status.PASS, "Entering the password: " + password);
+        myAccountPage.enterLoginPassword(password);
+        logger.info("Clicking the Log in button");
+        test.log(Status.PASS, "Clicking the Log in button");
+        UserDashboardPage userDashboardPage = myAccountPage.clickLoginButton();
+        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_USER);
+    }
+
+    @Test()
+    public void loginUserWithoutPassword() {
+        ExtentTest test = extentReports.createTest("Login user without password");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        String email = "test@test.pl";
+        logger.info("Entering the email address: " + email);
+        test.log(Status.PASS, "Entering the email address: " + email);
+        myAccountPage.enterLoginEmail(email);
+        logger.info("Clicking the Log in button");
+        test.log(Status.PASS, "Clicking the Log in button");
+        UserDashboardPage userDashboardPage = myAccountPage.clickLoginButton();
+        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.EMPTY_PASSWORD);
+    }
+
+    @Test()
+    public void loginUserWithInvalidPassword() {
+        ExtentTest test = extentReports.createTest("Login user with incorrect password");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        String email = "test@test.pl";
+        logger.info("Entering the email address: " + email);
+        test.log(Status.PASS, "Entering the email address: " + email);
+        myAccountPage.enterLoginEmail(email);
+        String password = dataProvider.generateCorrectPassword();
+        logger.info("Entering the password: " + password);
+        test.log(Status.PASS, "Entering the password: " + password);
+        myAccountPage.enterLoginPassword(password);
+        logger.info("Clicking the Log in button");
+        test.log(Status.PASS, "Clicking the Log in button");
+        UserDashboardPage userDashboardPage = myAccountPage.clickLoginButton();
+        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_PASS_USER);
+    }
+
+    @Test()
+    public void loginUserWithoutData() {
+        ExtentTest test = extentReports.createTest("Login user with incorrect password");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the My Account page");
+        test.log(Status.PASS, "Entering the My Account page");
+        MyAccountPage myAccountPage = homePage.clickMyAccount();
+        logger.info("Clicking the Log in button");
+        test.log(Status.PASS, "Clicking the Log in button");
+        UserDashboardPage userDashboardPage = myAccountPage.clickLoginButton();
+        Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_USER);
+    }
 
 }
