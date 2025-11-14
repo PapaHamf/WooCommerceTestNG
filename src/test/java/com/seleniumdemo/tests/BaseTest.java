@@ -18,6 +18,13 @@ public class BaseTest {
     // Added as fields to be able to use them in all methods.
     protected static ExtentSparkReporter sparkReporter;
     protected static ExtentReports extentReports;
+    protected static final TestDataProvider dataProvider = new TestDataProvider();
+
+    //variables
+    // Number of user regs data sets
+    private int noOfUserRegs = 5;
+    // Name of the file used for user logging
+    private String userLoginsCSV = "userlogins.csv";
 
     @BeforeSuite
     public void beforeSuite() {
@@ -46,16 +53,26 @@ public class BaseTest {
 
     @DataProvider()
     public Object[][] userLogins() throws IOException, CsvException {
-        List<String[]> data = TestDataProvider.readCSV("src/test/resources/userlogins.csv");
+        List<String[]> data = TestDataProvider.readCSV("src/test/resources/" + userLoginsCSV);
         // number of users records
         int noOfRecords = data.size();
         // number of properties in user record
         int noOfProperties = data.getFirst().length;
         Object[][] userLogins = new Object[noOfRecords][noOfProperties];
-        for (int i = 0; i <= noOfRecords - 1; i++) {
+        for ( int i = 0; i <= noOfRecords - 1; i++ ) {
             System.arraycopy(data.get(i), 0, userLogins[i], 0, noOfProperties);
         }
         return userLogins;
+    }
+
+    @DataProvider()
+    public Object[][] registerUserData() {
+        Object[][] userData = new Object[noOfUserRegs][2];
+        for (int i = 0; i <= noOfUserRegs; i++ ) {
+            userData[i][0] = dataProvider.faker.internet().emailAddress();
+            userData[i][1] = dataProvider.generateCorrectPassword();
+        }
+        return userData;
     }
 
 }
