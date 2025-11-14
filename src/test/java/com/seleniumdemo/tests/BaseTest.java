@@ -22,9 +22,9 @@ public class BaseTest {
 
     //variables
     // Number of user regs data sets
-    private int noOfUserRegs = 5;
+    protected int noOfUserRegs = 5;
     // Name of the file used for user logging
-    private String userLoginsCSV = "userlogins.csv";
+    protected String userLoginsCSV = "userlogins.csv";
 
     @BeforeSuite
     public void beforeSuite() {
