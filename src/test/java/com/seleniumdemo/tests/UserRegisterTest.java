@@ -5,7 +5,6 @@ import com.aventstack.extentreports.Status;
 import com.seleniumdemo.pages.HomePage;
 import com.seleniumdemo.pages.MyAccountPage;
 import com.seleniumdemo.pages.UserDashboardPage;
-import com.seleniumdemo.utils.TestDataProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -14,9 +13,8 @@ import org.testng.annotations.Test;
 public class UserRegisterTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger();
-    private static final TestDataProvider dataProvider = new TestDataProvider();
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithoutEmail() {
         ExtentTest test = extentReports.createTest("Register user without email adddress");
         HomePage homePage = new HomePage(driver);
@@ -33,7 +31,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_EMAIL);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithoutPassword() {
         ExtentTest test = extentReports.createTest("Register user without password");
         HomePage homePage = new HomePage(driver);
@@ -50,7 +48,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_PASSWORD);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithInvalidEmail() {
         ExtentTest test = extentReports.createTest("Register user with invalid email address");
         HomePage homePage = new HomePage(driver);
@@ -72,7 +70,7 @@ public class UserRegisterTest extends BaseTest {
                 MyAccountPage.EMAIL_ADDR_WITHOUT_SIGN.replace("xxx", invalidEmail));
     }
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithOnlyAtSign() {
         ExtentTest test = extentReports.createTest("Register user with invalid email " +
                 "address containing only @ char");
@@ -94,7 +92,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getTooltipErrorMessage(), MyAccountPage.EMAIL_ADDR_WITH_SIGN_ONLY);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithTooShortPassword() {
         ExtentTest test = extentReports.createTest("Register user with too short password");
         HomePage homePage = new HomePage(driver);
@@ -112,7 +110,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_WEAK);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void regsiterUserWithoutDifferentCharacters() {
         ExtentTest test = extentReports.createTest("Register user with password without" +
                 " upper case letters, numbers and special characters");
@@ -131,7 +129,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getPasswordStrengthMessage(), MyAccountPage.PASSWORD_VERY_WEAK);
     }
 
-    @Test(enabled = false)
+    @Test()
     public void registerUserWithValidData() {
         ExtentTest test = extentReports.createTest("Register user with correct email address and password");
         HomePage homePage = new HomePage(driver);
@@ -150,7 +148,7 @@ public class UserRegisterTest extends BaseTest {
         Assert.assertTrue(userDashboardPage.getDashboardLink().isDisplayed());
     }
 
-    @Test(dataProvider = "userLogins")
+    @Test(dataProvider = "registerUserData")
     public void registerUserWithDataProvider(String email, String password) {
         ExtentTest test = extentReports.createTest("Register user with correct email address " +
                 "and password using data provider");
