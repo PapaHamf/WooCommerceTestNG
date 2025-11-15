@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartPage {
@@ -43,6 +44,7 @@ public class CartPage {
 
     // Quantity field
     private By priceInput = By.xpath("//input[@type='number']");
+    private By quntityInput = By.tagName("input");
     // Individual row elements
     private By removeButton = By.className("remove");
     private By productName = By.xpath("//td[@data-title='Product']");
@@ -57,6 +59,38 @@ public class CartPage {
     public CartPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
+    }
+
+    /**
+     * Returns the number of different products in cart.
+     * @return Number of products.
+     */
+    public int getNumberOfProducts() {
+        return cartItems.size();
+    }
+
+    /**
+     * Returns the String array with the product names in cart.
+     * @return List of Strings w/ product names.
+     */
+    public List<String> getProductNames() {
+        List<String> productNames = new ArrayList<String>();
+        for ( WebElement element: this.productNames ) {
+            productNames.add(element.getText());
+        }
+        return productNames;
+    }
+
+    /**
+     * Returns the total number of product items in cart.
+     * @return Number of items.
+     */
+    public int getTotalNumberOfProductItems() {
+        int numberOfItems = 0;
+        for ( WebElement element: productQuantities ) {
+            numberOfItems += Integer.parseInt(element.findElement(quntityInput).getDomAttribute("value"));
+        }
+        return numberOfItems;
     }
 
     /**
