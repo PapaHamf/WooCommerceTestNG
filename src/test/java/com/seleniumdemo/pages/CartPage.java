@@ -28,6 +28,8 @@ public class CartPage {
     private List<WebElement> productQuantities;
     @FindBys({@FindBy(className = "cart_item"), @FindBy(className = "product-subtotal")})
     private List<WebElement> productTotals;
+    @FindBy(xpath = "//div[@role='alert']")
+    private WebElement alertMessage;
     // Bottom elements
     @FindBy(id = "coupon_code")
     private WebElement couponCode;
@@ -51,6 +53,9 @@ public class CartPage {
     private By productPrice = By.xpath("//td[@data-title='Price']");
     private By productQuantity = By.xpath("//td[@data-title='Quantity']");
     private By productTotal = By.xpath("//td[@data-title='Total']");
+
+    // Messages
+    public static final String PRODUCT_REMOVED = "removed.";
 
     /**
      * Class that holds the locators of the Cart page and methods to get its webelements.
@@ -279,5 +284,13 @@ public class CartPage {
     public CheckOutPage clickCheckoutButton() {
         checkoutButton.click();
         return new CheckOutPage(driver);
+    }
+
+    /**
+     * Returns the text message displayed in the alert block.
+     * @return String from the alert.
+     */
+    public String getAlertMessage() {
+        return alertMessage.getText();
     }
 }
