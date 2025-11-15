@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -15,7 +16,7 @@ public class ShopPage {
 
     protected WebDriver driver;
 
-    @FindBy(className = "products")
+    @FindBy(className = "product")
     private List<WebElement> productsList;
     @FindBys({@FindBy(className = "products"), @FindBy(className = "price")})
     private List<WebElement> productPrices;
@@ -25,6 +26,9 @@ public class ShopPage {
     private List<WebElement> productNames;
     @FindBy(name = "orderby")
     private WebElement sortOrderList;
+
+    private By addedToCart = By.cssSelector("a.button.added");
+    private By viewCart = By.linkText("View cart");
 
     /**
      * Class that holds the locators of the Shop page and methods to get its webelements.
@@ -91,6 +95,42 @@ public class ShopPage {
             }
         }
         return this;
+    }
+
+    /**
+     * Checks if the product was added to cart using the checkmark on the Add to cart button.
+     * @param productNumber Number of the product from the list, starts w/ 0.
+     * @return true when the product is added to cart; otherwise false.
+     */
+    public boolean productIsAddedByNumber(int productNumber) {
+        return getProductsList()
+                .get(productNumber)
+                .findElement(addedToCart)
+                .isDisplayed();
+    }
+
+    /**
+     * Checks if the product was added to cart using the checkmark on the Add to cart button.
+     * @param productName Name of the product from the list.
+     * @return true when the product is added to cart; otherwise false.
+     */
+    public boolean productIsAddedByName(int productName) {
+        for ( int i = 0; i < getProductNames().size(); i++ ) {
+            if ( getProductNames().get(i).equals(productName) ) {
+                return getProductsList().get(i).findElement(addedToCart).isDisplayed();
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Clicks the View cart link in the product tile that was most recently added to the cart.
+     * @param element Webelement of the product added to cart.
+     * @return Cart Page object.
+     */
+    public CartPage clickViewCartLink(WebElement element) {
+        element.findElement(viewCart).click();
+        return new CartPage(driver);
     }
 
     /**
