@@ -1,5 +1,6 @@
 package com.seleniumdemo.pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -27,6 +28,11 @@ public class UserDashboardPage {
     private WebElement accountDetailsLink;
     @FindBy(linkText = "Logout")
     private WebElement logoutLink;
+
+    private By dashboardMessage = By.className("woocommerce-message");
+
+    // messages
+    public static final String PASSWORD_CHANGED = "Your password has been changed successfully.";
 
     /**
      * Class that holds the locators of the User Dashboard page and methods to get its webelements.
@@ -95,6 +101,14 @@ public class UserDashboardPage {
     public MyAccountPage clickLogoutLink() {
         logoutLink.click();
         return new MyAccountPage(driver);
+    }
+
+    /**
+     * Returns the message panel text displayed on the User Dashboard page.
+     * @return Message text.
+     */
+    public String getDashboardMessage() {
+        return driver.findElement(dashboardMessage).getText();
     }
 
 }
