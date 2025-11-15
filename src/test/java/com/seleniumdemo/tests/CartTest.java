@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class CartTest extends  BaseTest {
@@ -54,6 +55,7 @@ public class CartTest extends  BaseTest {
         shopPage.clickProductButtonByNumber(randomNum);
         productNames[1] = shopPage.getProductNames().get(randomNum);
         logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
         CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
         SoftAssert soft = new SoftAssert();
         soft.assertEquals(cartPage.getTotalNumberOfProductItems(), 2);
@@ -62,7 +64,7 @@ public class CartTest extends  BaseTest {
 
     @Test()
     public void addProductFromProductPage() {
-        ExtentTest test = extentReports.createTest("Add product form the product page");
+        ExtentTest test = extentReports.createTest("Add product from the product page");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the Shop page");
         test.log(Status.PASS, "Entering the Shop page");
@@ -83,5 +85,27 @@ public class CartTest extends  BaseTest {
         soft.assertTrue(productPage.getAlertMessage().contains(ProductPage.ADDED_TO_CART));
         CartPage cartPage = productPage.clickViewCartAlert();
         soft.assertEquals(cartPage.getProductQuantityByName(productName), numberOfItems);
+    }
+
+    @Test()
+    public void removeProductFromCart() {
+        ExtentTest test = extentReports.createTest("Remove product from the cart");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        Random random = new Random();
+        int randomNum = random.nextInt(0, shopPage.getProductsList().size());
+        logger.info("Adding random product to cart, " + randomNum);
+        test.log(Status.PASS, "Adding random product to cart, " + randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
+        logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
+        CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
+        List<String> productNames = cartPage.getProductNames();
+        cartPage.removeProductByNumber(0);
+        SoftAssert soft = new SoftAssert();
+        soft.assertTrue(cartPage.getAlertMessage().contains(CartPage.PRODUCT_REMOVED));
+        soft.assertNotEquals(cartPage.getProductNames(), productNames);
     }
 }
