@@ -27,8 +27,8 @@ public class ShopTest extends BaseTest {
         // losowy wybór produktu
         Random random = new Random();
         int randomNum = random.nextInt(3);
-        shopPage.clickProductButtonNumber(randomNum);
-        shopPage.clickProductButtonNumber(0);
+        shopPage.clickProductButtonByNumber(randomNum);
+        shopPage.clickProductButtonByNumber(0);
         CartPage cartPage = homePage.clickViewCartButton();
         CheckOutPage checkOutPage = cartPage.clickCheckoutButton();
         checkOutPage.setFirstName(customer.getFirstName());
