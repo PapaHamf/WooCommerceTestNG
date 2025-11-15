@@ -70,7 +70,7 @@ public class CartPage {
     }
 
     /**
-     * Returns the String array with the product names in cart.
+     * Returns the list of Strings with the product names in cart.
      * @return List of Strings w/ product names.
      */
     public List<String> getProductNames() {
@@ -205,6 +205,29 @@ public class CartPage {
                 break;
             }
         }
+    }
+
+    /**
+     * Returns the quantity of the product selected by index.
+     * @param index Number of the product on the list, starts w/ 0.
+     * @return Product quantity.
+     */
+    public String getProductQuantityByNumber(int index) {
+        return productQuantities.get(index).findElement(priceInput).getText();
+    }
+
+    /**
+     * Returns the quantity of the product selected by product name.
+     * @param name Name of the product on the list.
+     * @return Product quantity.
+     */
+    public String getProductQuantityByName(String name) {
+        for ( int i = 0; i < productNames.size(); i++ ) {
+            if ( productNames.get(i).getText().equals(name) ) {
+                return productNames.get(i).getText();
+            }
+        }
+        return null;
     }
 
     /**
