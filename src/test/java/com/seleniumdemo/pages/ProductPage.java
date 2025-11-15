@@ -32,7 +32,7 @@ public class ProductPage {
     @FindBy(xpath = "//div[@role='alert']")
     private WebElement alertMessage;
 
-    //messages
+    // Messages
     public static final String ADDED_TO_CART = "have been added to your cart.";
 
     /**
