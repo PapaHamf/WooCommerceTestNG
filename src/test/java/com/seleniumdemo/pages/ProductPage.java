@@ -24,9 +24,16 @@ public class ProductPage {
     private WebElement productDescriptionContainer;
     @FindBys({@FindBy(id = "tab-description"), @FindBy(tagName = "p")})
     private WebElement productDescription;
+    @FindBy(css = "input[name$='quantity']")
+    private WebElement productQuantity;
 
     @FindBys({@FindBy(xpath = "//div[@role='alert']"), @FindBy(linkText = "View cart")})
     private WebElement viewCartAlert;
+    @FindBy(xpath = "//div[@role='alert']")
+    private WebElement alertMessage;
+
+    //messages
+    public static final String ADDED_TO_CART = "have been added to your cart.";
 
     /**
      * Class that holds the locators of the Product page and methods to get its webelements.
@@ -38,7 +45,7 @@ public class ProductPage {
     }
 
     /**
-     * Clicks the Add to Cart button on the product page.
+     * Clicks the Add to Cart button on the Product page.
      * @return Product page object.
      */
     public ProductPage clickAddToCart() {
@@ -47,7 +54,7 @@ public class ProductPage {
     }
 
     /**
-     * Returns the product price from the product page.
+     * Returns the product price from the Product page.
      * @return Product price.
      */
     public String getProductPrice() {
@@ -55,7 +62,7 @@ public class ProductPage {
     }
 
     /**
-     * Clicks the View cart button on the product page.
+     * Clicks the View cart button on the Product page.
      * @return Cart page object.
      */
     public CartPage clickViewCartAlert() {
@@ -64,7 +71,7 @@ public class ProductPage {
     }
 
     /**
-     * Clicks the Description link on the product page.
+     * Clicks the Description link on the Product page.
      * @return Product page object.
      */
     public ProductPage switchToDescription() {
@@ -73,7 +80,7 @@ public class ProductPage {
     }
 
     /**
-     * Clicks the Reviews link on the product page.
+     * Clicks the Reviews link on the Product page.
      * @return Product page object.
      */
     public ProductPage switchToReviews() {
@@ -82,10 +89,26 @@ public class ProductPage {
     }
 
     /**
-     * Returns the product description on the product page.
+     * Returns the product description on the Product page.
      * @return Product description text.
      */
     public String getProductDescription() {
         return productDescription.getText();
+    }
+
+    /**
+     * Sets the product quantity on the Product page.
+     * @param quantity Number of products.
+     */
+    public void setProductQuantity(String quantity) {
+        productQuantity.sendKeys(quantity);
+    }
+
+    /**
+     * Returns the text message displayed in the alert block.
+     * @return String from the alert.
+     */
+    public String getAlertMessage() {
+        return alertMessage.getText();
     }
 }
