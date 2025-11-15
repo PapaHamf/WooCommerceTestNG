@@ -25,8 +25,15 @@ public class MyAccountPage {
     private WebElement loginButton;
     @FindBy(className = "woocommerce-error")
     private WebElement errorContainer;
+    @FindBy(linkText = "Lost your password?")
+    private WebElement lostPasswordLink;
 
     private By passwordStrength = By.className("woocommerce-password-strength");
+    private By lostPasswordEmail = By.id("user_login");
+    private By resetPasswordButton = By.cssSelector("button[value='Reset password']");
+    private By newPassword = By.id("password_1");
+    private By repeatNewPassword = By.id("password_2");
+    private By saveNewPasswordButton = By.cssSelector("button[value='Save']");
 
     // Error messages
     // register
@@ -89,7 +96,7 @@ public class MyAccountPage {
 
     /**
      * Sets the login user email field on the page.
-     * @param email Text containing the email address used to login user.
+     * @param email Text containing the email address used to log in user.
      */
     public void enterLoginEmail(String email) {
         loginEmail.sendKeys(email);
@@ -97,7 +104,7 @@ public class MyAccountPage {
 
     /**
      * Sets the login user password field on the page.
-     * @param password Text containing the password used to login user.
+     * @param password Text containing the password used to log in user.
      */
     public void enterLoginPassword(String password) {
         loginPassword.sendKeys(password);
@@ -142,5 +149,56 @@ public class MyAccountPage {
      */
     public String getPasswordStrengthMessage() {
         return driver.findElement(passwordStrength).getText();
+    }
+
+    /**
+     * Clicks the Lost your password link on the page.
+     * @return My Account page object.
+     */
+    public MyAccountPage clickLostPasswordLink() {
+        lostPasswordLink.click();
+        return this;
+    }
+
+    /**
+     * Sets the user account email address field used to reset password on the page.
+     * @param email Text containing the email address.
+     */
+    public void enterLostPasswordEmail(String email) {
+        driver.findElement(lostPasswordEmail).sendKeys(email);
+    }
+
+    /**
+     * Clicks the Reset Password button on the page.
+     * @return IntWebmail page object.
+     */
+    public IntWebmailPage clickResetPasswordButton() {
+        driver.findElement(resetPasswordButton).click();
+        return new IntWebmailPage(driver);
+    }
+
+    /**
+     * Sets the New password field on the reset modal of the page.
+     * @param password Text containing the new password.
+     */
+    public void enterNewPassword(String password) {
+        driver.findElement(newPassword).sendKeys(password);
+    }
+
+    /**
+     * Sets the Repeat password field on the reset modal of the page.
+     * @param password Text containing the repeated password.
+     */
+    public void enterRepeatNewPassword(String password) {
+        driver.findElement(repeatNewPassword).sendKeys(password);
+    }
+
+    /**
+     * Clicks the Save Password button on the page.
+     * @return My Account page object.
+     */
+    public MyAccountPage clickSavePasswordButton() {
+        driver.findElement(saveNewPasswordButton).click();
+        return this;
     }
 }
