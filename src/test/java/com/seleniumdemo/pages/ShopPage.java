@@ -40,7 +40,7 @@ public class ShopPage {
     }
 
     /**
-     * Returns the list of products on the shop page.
+     * Returns the list of products on the Shop page.
      * @return List of product webelements.
      */
     public List<WebElement> getProductsList() {
@@ -48,7 +48,7 @@ public class ShopPage {
     }
 
     /**
-     * Returns the list of products names on the shop page.
+     * Returns the list of products names on the Shop page.
      * @return List of product names.
      */
     public List<String> getProductNames() {
@@ -59,7 +59,7 @@ public class ShopPage {
     }
 
     /**
-     * Returns the list of products prices on the shop page.
+     * Returns the list of products prices on the Shop page.
      * @return List of product prices.
      */
     public List<Double> getProductPrices() {
@@ -74,27 +74,51 @@ public class ShopPage {
     }
 
     /**
-     * Clicks the product Add to cart button on the shop page for the product selected by index.
+     * Clicks the product Add to cart button on the Shop page for the product selected by index.
      * @param productNumber Number of the product from the list, starts w/ 0.
      * @return Shop page object.
      */
-    public ShopPage clickProductButtonNumber(int productNumber) {
+    public ShopPage clickProductButtonByNumber(int productNumber) {
         productButtons.get(productNumber).click();
         return this;
     }
 
     /**
-     * Clicks the product Add to cart button on the shop page for the product selected by name.
+     * Clicks the product Add to cart button on the Shop page for the product selected by name.
      * @param productName Name of the product from the list.
      * @return Shop page object.
      */
-    public ShopPage clickProductButtonName(String productName) {
+    public ShopPage clickProductButtonByName(String productName) {
         for ( int i = 0; i < getProductNames().size(); i++ ) {
             if ( getProductNames().get(i).equals(productName) ) {
                 productButtons.get(i).click();
             }
         }
         return this;
+    }
+
+    /**
+     * Clicks the product tile on the Shop page for the product selected by index.
+     * @param productNumber Number of the product from the list, starts w/ 0.
+     * @return Product page object.
+     */
+    public ProductPage clickProductTileByNumber(int productNumber) {
+        productsList.get(productNumber).click();
+        return new ProductPage(driver);
+    }
+
+    /**
+     * Clicks the product tile on the Shop page for the product selected by name.
+     * @param productName Name of the product from the list.
+     * @return Product page object.
+     */
+    public ProductPage clickProductTileByName(String productName) {
+        for ( int i = 0; i < getProductNames().size(); i++ ) {
+            if ( getProductNames().get(i).equals(productName) ) {
+                productsList.get(i).click();
+            }
+        }
+        return new ProductPage(driver);
     }
 
     /**
