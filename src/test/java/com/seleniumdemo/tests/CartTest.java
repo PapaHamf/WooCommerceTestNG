@@ -4,6 +4,7 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 import com.seleniumdemo.pages.CartPage;
 import com.seleniumdemo.pages.HomePage;
+import com.seleniumdemo.pages.ProductPage;
 import com.seleniumdemo.pages.ShopPage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +30,7 @@ public class CartTest extends  BaseTest {
         int randomNum = random.nextInt(0, shopPage.getProductsList().size());
         logger.info("Adding random product to cart, " + randomNum);
         test.log(Status.PASS, "Adding random product to cart, " + randomNum);
-        shopPage.clickProductButtonNumber(randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
         Assert.assertTrue(shopPage.productIsAddedByNumber(randomNum));
     }
 
@@ -45,12 +46,12 @@ public class CartTest extends  BaseTest {
         int randomNum = random.nextInt(0, shopPage.getProductsList().size());
         logger.info("Adding random product to cart, " + randomNum);
         test.log(Status.PASS, "Adding random product to cart, " + randomNum);
-        shopPage.clickProductButtonNumber(randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
         productNames[0] = shopPage.getProductNames().get(randomNum);
         randomNum = random.nextInt(0, shopPage.getProductsList().size());
         logger.info("Adding random product to cart, " + randomNum);
         test.log(Status.PASS, "Adding random product to cart, " + randomNum);
-        shopPage.clickProductButtonNumber(randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
         productNames[1] = shopPage.getProductNames().get(randomNum);
         logger.info("Clicking View cart link");
         CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
@@ -59,5 +60,28 @@ public class CartTest extends  BaseTest {
         soft.assertEquals(cartPage.getProductNames(), Arrays.stream(productNames).toList());
     }
 
-
+    @Test()
+    public void addProductFromProductPage() {
+        ExtentTest test = extentReports.createTest("Add product form the product page");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        Random random = new Random();
+        int randomNum = random.nextInt(0, shopPage.getProductsList().size());
+        logger.info("Clicking the product tile");
+        test.log(Status.PASS, "Clicking the product tile");
+        // required to check the product quantity on the cart page
+        String productName = shopPage.getProductNames().get(randomNum);
+        ProductPage productPage = shopPage.clickProductTileByNumber(randomNum);
+        String numberOfItems = String.valueOf(random.nextInt(0, 100));
+        logger.info("Changing the quantity of the product to: " + numberOfItems);
+        test.log(Status.PASS,"Changing the quantity of the product to: " + numberOfItems);
+        productPage.setProductQuantity(numberOfItems);
+        productPage.clickAddToCart();
+        SoftAssert soft = new SoftAssert();
+        soft.assertTrue(productPage.getAlertMessage().contains(ProductPage.ADDED_TO_CART));
+        CartPage cartPage = productPage.clickViewCartAlert();
+        soft.assertEquals(cartPage.getProductQuantityByName(productName), numberOfItems);
+    }
 }
