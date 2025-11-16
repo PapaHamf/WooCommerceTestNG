@@ -1,6 +1,7 @@
 package com.seleniumdemo.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -25,6 +26,10 @@ public class HomePage {
     private WebElement shopLink;
     @FindBy(className = "nav__search")
     private List<WebElement> searchBarButton;
+    @FindBy(css = "input[title='Search …']")
+    private List<WebElement> searchField;
+    @FindBy(className = "grid__item")
+    private List<WebElement> searchResults;
     // Cart Widget Elements
     @FindBy(className = "icn-shoppingcart")
     private List<WebElement> cartIcon;
@@ -38,6 +43,7 @@ public class HomePage {
     private List<WebElement> removeIcons;
     By itemName = By.xpath("//a[2]");
     By widgetItems = By.className("mini_cart_item");
+    By productTitle = By.className("czr-title");
 
     /**
      * Class that holds the locators of the Home page and methods to get its webelements.
@@ -86,6 +92,64 @@ public class HomePage {
                 .findFirst()
                 .ifPresent(WebElement::click);
         return this;
+    }
+
+    /**
+     * Sets the Search field displayed on the new modal screen on the Home page,
+     * then sends the Enter key to perform the search.
+     * @param serachTerm Text containing the serach term.
+     * @return Home page object.
+     */
+    public HomePage setSearchTerm(String serachTerm) {
+        new Actions(driver)
+                .sendKeys(searchField
+                    .stream()
+                    .filter(WebElement::isDisplayed)
+                    .findFirst()
+                    .get(), serachTerm)
+                .sendKeys(Keys.ENTER)
+                .perform();
+        return this;
+    }
+
+    /**
+     * Returns the list of items' names on the Search results page.
+     * @return List of Strings.
+     */
+    public List<String> getSearchResults() {
+        List<String> searchResults = new ArrayList<String>();
+        for ( WebElement element: this.searchResults) {
+            searchResults.add(element.findElement(productTitle).getText());
+        }
+        return searchResults;
+    }
+
+    /**
+     * Verifies if the product name is displayed on the Search results page.
+     * @param productName Text containing the name of the product.
+     * @return true if the product name was found; otherwise false.
+     */
+    public boolean searchProductFound(String productName) {
+        for ( WebElement element: searchResults ) {
+            if ( element.findElement(productTitle).getText().equals(productName) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Clicks the selected product title on the Search results page.
+     * @param productName Text containing the name of the product.
+     * @return Product page object.
+     */
+    public ProductPage clickFoundProductTitle(String productName) {
+        for ( WebElement element: searchResults ) {
+            if ( element.findElement(productTitle).getText().equals(productName) ) {
+                element.click();
+            }
+        }
+        return new ProductPage(driver);
     }
 
     /**
