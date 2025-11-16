@@ -246,4 +246,25 @@ public class CartTest extends  BaseTest {
         Assert.assertEquals(productTotal, productsSum);
     }
 
+    @Test()
+    public void addProductFromSearchResultsTest() {
+        ExtentTest test = extentReports.createTest("Add product from search results on Shop page");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Clicking the search icon (magnifying glass)");
+        test.log(Status.PASS, "Clicking the search icon (magnifying glass)");
+        homePage.clickSearchButton();
+        String productName = "GIT basics";
+        logger.info("Entering the product name: " + productName);
+        test.log(Status.PASS, "Entering the product name: " + productName);
+        homePage.setSearchTerm(productName);
+        SoftAssert soft = new SoftAssert();
+        soft.assertTrue(homePage.searchProductFound(productName));
+        logger.info("Clicking the found product (" +productName + ") tile");
+        test.log(Status.PASS, "Clicking the found product (" +productName + ") tile");
+        ProductPage productPage = homePage.clickFoundProductTitle(productName);
+        logger.info("Clicking the Add to cart button");
+        test.log(Status.PASS, "Clicking the Add to cart button");
+        productPage.clickAddToCart();
+        soft.assertTrue(productPage.getAlertMessage().contains(ProductPage.ADDED_TO_CART));
+    }
 }
