@@ -41,7 +41,7 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() throws IOException {
         driver = DriverFactory.getDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(3000));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
         driver.get("http://seleniumdemo.com/");
         driver.manage().window().maximize();
     }

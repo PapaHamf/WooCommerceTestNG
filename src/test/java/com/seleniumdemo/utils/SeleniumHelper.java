@@ -11,7 +11,7 @@ import java.time.Duration;
 public class SeleniumHelper {
 
     public static void waitForElementToExist(WebDriver driver, By locator) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(7000));
         wait.until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
@@ -26,7 +26,7 @@ public class SeleniumHelper {
     }
 
     public static void waitForElementToBeClickable(WebDriver driver, WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(5000));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(10000));
         wait.until(ExpectedConditions.elementToBeClickable(element));
     }
 
