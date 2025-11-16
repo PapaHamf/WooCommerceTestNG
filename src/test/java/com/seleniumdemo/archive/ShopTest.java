@@ -29,7 +29,7 @@ public class ShopTest extends BaseTest {
         int randomNum = random.nextInt(3);
         shopPage.clickProductButtonByNumber(randomNum);
         shopPage.clickProductButtonByNumber(0);
-        CartPage cartPage = homePage.clickViewCartButton();
+        CartPage cartPage = homePage.clickWidgetViewCartButton();
         CheckOutPage checkOutPage = cartPage.clickCheckoutButton();
         checkOutPage.setFirstName(customer.getFirstName());
         checkOutPage.setLastName(customer.getLastName());
