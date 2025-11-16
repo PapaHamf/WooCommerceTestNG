@@ -51,8 +51,8 @@ public class CheckOutPage {
     private WebElement orderSubtotal;
     @FindBys({@FindBy(className = "shop_table"), @FindBy(tagName = "tfoot"), @FindBy(className = "order-total")})
     private WebElement orderTotal;
-    @FindBy(id = "place_order")
-    private WebElement placeOrderButton;
+    // @FindBy(id = "place_order")
+    // private WebElement placeOrderButton;
 
     private By table = By.className("shop_table");
     private By tableBody = By.tagName("tbody");
@@ -252,8 +252,8 @@ public class CheckOutPage {
      * @return Order Summary page object.
      */
     public OrderSummaryPage clickPlaceOrder() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(SCROLL_TO_ORDER_BUTTON_JS, driver.findElement(placeOrderBtn));
+        // JavascriptExecutor js = (JavascriptExecutor) driver;
+        // js.executeScript(SCROLL_TO_ORDER_BUTTON_JS, driver.findElement(placeOrderBtn));
         SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
         driver.findElement(placeOrderBtn).click();
         return new OrderSummaryPage(driver);

@@ -101,6 +101,7 @@ public class ProductPage {
      * @param quantity Number of products.
      */
     public void setProductQuantity(String quantity) {
+        productQuantity.clear();
         productQuantity.sendKeys(quantity);
     }
 
