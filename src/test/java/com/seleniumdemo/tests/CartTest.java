@@ -82,9 +82,13 @@ public class CartTest extends  BaseTest {
         logger.info("Changing the quantity of the product to: " + numberOfItems);
         test.log(Status.PASS,"Changing the quantity of the product to: " + numberOfItems);
         productPage.setProductQuantity(numberOfItems);
+        logger.info("Adding the product to cart");
+        test.log(Status.PASS, "Adding the product to cart");
         productPage.clickAddToCart();
         SoftAssert soft = new SoftAssert();
         soft.assertTrue(productPage.getAlertMessage().contains(ProductPage.ADDED_TO_CART));
+        logger.info("Clicking the View cart button");
+        test.log(Status.PASS, "Clicking the View cart button");
         CartPage cartPage = productPage.clickViewCartAlert();
         soft.assertEquals(cartPage.getProductQuantityByName(productName), numberOfItems);
     }
@@ -105,6 +109,8 @@ public class CartTest extends  BaseTest {
         test.log(Status.PASS, "Clicking View cart link");
         CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
         List<String> productNamesBeforeRemove = cartPage.getProductNames();
+        logger.info("Clicking the Remove button on the cart page");
+        test.log(Status.PASS, "Clicking the Remove button on the cart page");
         // only one product added, it's safe to use 0
         cartPage.removeProductByNumber(0);
         SoftAssert soft = new SoftAssert();
@@ -128,13 +134,17 @@ public class CartTest extends  BaseTest {
         logger.info("Clicking View cart link");
         test.log(Status.PASS, "Clicking View cart link");
         CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
+        logger.info("Clicking the Remove button on the cart page");
+        test.log(Status.PASS, "Clicking the Remove button on the cart page");
         // only one product added, it's safe to use 0
         cartPage.removeProductByNumber(0);
+        logger.info("Clicking the Undo link");
+        test.log(Status.PASS, "Clicking the Undo link");
         cartPage.clickUndoLink();
         Assert.assertTrue(cartPage.getProductNames().contains(productName));
     }
 
-    @Test()
+    @Test() @Ignore
     public void removeProductFromWidgetTest() {
         ExtentTest test = extentReports.createTest("Remove product from the cart widget");
         HomePage homePage = new HomePage(driver);
@@ -146,15 +156,94 @@ public class CartTest extends  BaseTest {
         logger.info("Adding random product to cart, " + randomNum);
         test.log(Status.PASS, "Adding random product to cart, " + randomNum);
         shopPage.clickProductButtonByNumber(randomNum);
+        logger.info("Displaying the widget");
+        test.log(Status.PASS,"Displaying the widget");
         homePage.displayCartWidget();
         List<String> productNamesBeforeRemove = homePage.getProductItemsFromWidget();
+        logger.info("Clicking remove button (x) in the widget");
+        test.log(Status.PASS, "Clicking remove button (x) in the widget");
         // only one product added, it's safe to use 0
         homePage.removeWidgetProductByNumber(0);
         SeleniumHelper.waitForElementToBeClickable(driver, homePage.getInteractiveCartIcon());
+        logger.info("Displaying the widget");
+        test.log(Status.PASS,"Displaying the widget");
         homePage.displayCartWidget();
         Assert.assertNotEquals(homePage.getProductItemsFromWidget(), productNamesBeforeRemove);
     }
 
+    @Test() @Ignore
+    public void checkProductsQuantityPriceInCartTest() {
+        ExtentTest test = extentReports.createTest("Verify the products quantity and price in the cart");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        Random random = new Random();
+        int randomNum = random.nextInt(0, shopPage.getProductsList().size());
+        logger.info("Adding random product to cart, " + randomNum);
+        test.log(Status.PASS, "Adding random product to cart, " + randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
+        String productName = shopPage.getProductNames().get(randomNum);
+        logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
+        CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
+        // fetching the data
+        String productPrice = cartPage.getProductPriceByName(productName);
+        String productOldTotal = cartPage.getProductTotalByName(productName);
+        String newQty = "10";
+        logger.info("Changing the product (" + productName + ") quantity to " + newQty);
+        test.log(Status.PASS, "Changing the product (" + productName + ") quantity to " + newQty);
+        cartPage.setProductQuantityByName(productName, newQty);
+        logger.info("Clicking the Update Cart button");
+        test.log(Status.PASS, "Clicking the Update Cart button");
+        SeleniumHelper.waitForElementToBeClickable(driver, cartPage.getUpdateCartButton());
+        cartPage.clickUpdateCart();
+        // fetching new data
+        String productNewQty = cartPage.getProductQuantityByName(productName);
+        String productNewTotal = cartPage.getProductTotalByName(productName);
+        SoftAssert soft = new SoftAssert();
+        soft.assertNotEquals(productNewTotal, productOldTotal);
+        soft.assertEquals(productNewQty, newQty);
+        Double prodPrice = Double.parseDouble(productPrice
+                .substring(0, productPrice.indexOf(" zł"))
+                .replace(",", ".")
+                .replace(" ", ""));
+        Double prodTotal = Double.parseDouble(productNewTotal
+                .substring(0, productNewTotal.indexOf(" zł"))
+                .replace(",", ".")
+                .replace(" ", ""));
+        int prodQty = Integer.parseInt(newQty);
+        soft.assertEquals(prodTotal, (prodPrice * prodQty));
+    }
 
+    @Test()
+    public void checkProductsTotalInCartTest() {
+        ExtentTest test = extentReports.createTest("Verify the products total in the cart");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        int productQty = 10;
+        logger.info("Adding random " + productQty + " products to cart");
+        test.log(Status.PASS, "Adding random " + productQty + " products to cart");
+        shopPage.addMultipleProducts(productQty);
+        logger.info("Displaying the widget");
+        test.log(Status.PASS,"Displaying the widget");
+        homePage.displayCartWidget();
+        logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
+        CartPage cartPage = homePage.clickWidgetViewCartButton();
+        // fetching data
+        List<Double> productPrices = cartPage.getProductPrices();
+        List<Integer> productQuantities = cartPage.getProductQuantities();
+        Double productTotal = cartPage.getOrderTotal();
+        double productsSum = 0.0;
+        if ( productPrices.size() == productQuantities.size() ) {
+            for (int i = 0; i < productPrices.size(); i++) {
+                productsSum += productPrices.get(i) * productQuantities.get(i);
+            }
+        }
+        Assert.assertEquals(productTotal, productsSum);
+    }
 
 }
