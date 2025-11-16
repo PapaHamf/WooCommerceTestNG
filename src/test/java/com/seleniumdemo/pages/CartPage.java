@@ -35,8 +35,8 @@ public class CartPage {
     private WebElement couponCode;
     @FindBy(name = "apply_coupon")
     private WebElement applyCouponButton;
-    @FindBy(name = "update_cart")
-    private WebElement updateCartButton;
+    // @FindBy(name = "update_cart")
+    // private WebElement updateCartButton;
     @FindBy(linkText = "Proceed to checkout")
     private WebElement checkoutButton;
     @FindBys({@FindBy(className = "cart_totals"), @FindBy(xpath = "//td[@data-title='Subtotal']")})
@@ -55,6 +55,7 @@ public class CartPage {
     private By productTotal = By.xpath("//td[@data-title='Total']");
     // Undo link
     private By undoLink = By.linkText("Undo?");
+    private By updateCartButton = By.name("update_cart");
 
     // Messages
     public static final String PRODUCT_REMOVED = "removed.";
@@ -197,7 +198,9 @@ public class CartPage {
      * @param quantity Quantity to set.
      */
     public void setProductQuantityByNumber(int index, String quantity) {
-        productQuantities.get(index).findElement(priceInput).sendKeys(quantity);
+        WebElement product = productQuantities.get(index).findElement(priceInput);
+        product.clear();
+        product.sendKeys(quantity);
     }
 
     /**
@@ -208,7 +211,9 @@ public class CartPage {
     public void setProductQuantityByName(String name, String quantity) {
         for ( int i = 0; i < productNames.size(); i++ ) {
             if ( productNames.get(i).getText().equals(name) ) {
-                productQuantities.get(i).findElement(priceInput).sendKeys(quantity);
+                WebElement product = productQuantities.get(i).findElement(priceInput);
+                product.clear();
+                product.sendKeys(quantity);
                 break;
             }
         }
@@ -255,11 +260,19 @@ public class CartPage {
     }
 
     /**
+     * Returns the Update Cart button webelement.
+     * @return Update cart webelement.
+     */
+    public WebElement getUpdateCartButton() {
+        return driver.findElement(updateCartButton);
+    }
+
+    /**
      * Clicks the Update cart button on the page.
      * @return Cart page object.
      */
     public CartPage clickUpdateCart() {
-        updateCartButton.click();
+        driver.findElement(updateCartButton).click();
         return this;
     }
 
