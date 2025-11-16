@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class ShopPage {
@@ -95,6 +96,18 @@ public class ShopPage {
             }
         }
         return this;
+    }
+
+    /**
+     * Adds multiple randomly selected products to the cart.
+     * @param numOfProducts Number of random products to add.
+     */
+    public void addMultipleProducts(int numOfProducts) {
+        Random random = new Random();
+        for ( int i = 0; i <= numOfProducts; i++ ) {
+            int randomNum = random.nextInt(0, getProductsList().size());
+            clickProductButtonByNumber(randomNum);
+        }
     }
 
     /**
