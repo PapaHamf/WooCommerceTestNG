@@ -39,9 +39,9 @@ public class CartPage {
     // private WebElement updateCartButton;
     @FindBy(linkText = "Proceed to checkout")
     private WebElement checkoutButton;
-    @FindBys({@FindBy(className = "cart_totals"), @FindBy(xpath = "//td[@data-title='Subtotal']")})
+    @FindBys({@FindBy(className = "cart_totals"), @FindBy(css = "td[data-title='Subtotal']")})
     private WebElement orderSubtotal;
-    @FindBys({@FindBy(className = "cart_totals"), @FindBy(xpath = "//td[@data-title='Total']")})
+    @FindBys({@FindBy(className = "cart_totals"), @FindBy(css = "td[data-title='Total']")})
     private WebElement orderTotal;
 
     // Quantity field
@@ -87,6 +87,34 @@ public class CartPage {
             productNames.add(element.getText());
         }
         return productNames;
+    }
+
+    /**
+     * Returns the list of Doubles with product prices in cart.
+     * @return List of prices (doubles).
+     */
+    public List<Double> getProductPrices() {
+        List<Double> productPrices = new ArrayList<Double>();
+        for ( WebElement element: this.productPrices ) {
+            String productPrice = element.getText();
+            productPrices.add(Double.parseDouble(productPrice
+                    .substring(0, productPrice.indexOf(" zł"))
+                    .replace(",", ".")
+                    .replace(" ", "")));
+        }
+        return productPrices;
+    }
+
+    /**
+     * Returns the list of Integers with product quantities in cart.
+     * @return List of quantities (integers).
+     */
+    public List<Integer> getProductQuantities() {
+        List<Integer> productQuantities = new ArrayList<Integer>();
+        for ( WebElement element: this.productQuantities) {
+            productQuantities.add(Integer.parseInt(element.findElement(quntityInput).getDomAttribute("value")));
+        }
+        return productQuantities;
     }
 
     /**
@@ -288,8 +316,12 @@ public class CartPage {
      * Returns the order Total field value.
      * @return Order total value.
      */
-    public String getOrderTotal() {
-        return orderTotal.getText();
+    public Double getOrderTotal() {
+        String total = orderTotal.getText();
+        return Double.parseDouble(total
+                .substring(0, total.indexOf(" zł"))
+                .replace(",", ".")
+                .replace(" ", ""));
     }
 
     /**
