@@ -6,6 +6,7 @@ import com.seleniumdemo.pages.CartPage;
 import com.seleniumdemo.pages.HomePage;
 import com.seleniumdemo.pages.ProductPage;
 import com.seleniumdemo.pages.ShopPage;
+import com.seleniumdemo.utils.SeleniumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
@@ -149,6 +150,11 @@ public class CartTest extends  BaseTest {
         List<String> productNamesBeforeRemove = homePage.getProductItemsFromWidget();
         // only one product added, it's safe to use 0
         homePage.removeWidgetProductByNumber(0);
+        SeleniumHelper.waitForElementToBeClickable(driver, homePage.getInteractiveCartIcon());
+        homePage.displayCartWidget();
         Assert.assertNotEquals(homePage.getProductItemsFromWidget(), productNamesBeforeRemove);
     }
+
+
+
 }
