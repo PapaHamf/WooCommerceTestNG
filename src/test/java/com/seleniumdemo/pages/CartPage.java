@@ -53,6 +53,8 @@ public class CartPage {
     private By productPrice = By.xpath("//td[@data-title='Price']");
     private By productQuantity = By.xpath("//td[@data-title='Quantity']");
     private By productTotal = By.xpath("//td[@data-title='Total']");
+    // Undo link
+    private By undoLink = By.linkText("Undo?");
 
     // Messages
     public static final String PRODUCT_REMOVED = "removed.";
@@ -292,5 +294,12 @@ public class CartPage {
      */
     public String getAlertMessage() {
         return alertMessage.getText();
+    }
+
+    /**
+     * Clicks the Undo link displayed in the alert block. Restores the last removed product to cart.
+     */
+    public void clickUndoLink() {
+        driver.findElement(undoLink).click();
     }
 }
