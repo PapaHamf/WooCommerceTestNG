@@ -7,6 +7,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -35,9 +36,8 @@ public class HomePage {
     private WebElement checkOutButton;
     @FindBy(className = "remove_from_cart_button")
     private List<WebElement> removeIcons;
-    @FindBy(className = "mini_cart_item")
-    private List<WebElement> widgetItems;
     By itemName = By.xpath("//a[2]");
+    By widgetItems = By.className("mini_cart_item");
 
     /**
      * Class that holds the locators of the Home page and methods to get its webelements.
@@ -136,7 +136,7 @@ public class HomePage {
      * Clicks the View cart button inside the widget.
      * @return Cart page object.
      */
-    public CartPage clickViewCartButton() {
+    public CartPage clickWidgetViewCartButton() {
         displayCartWidget();
         viewCartButton.click();
         return new CartPage(driver);
@@ -146,7 +146,7 @@ public class HomePage {
      * Clicks the remove icon inside the widget for the product selected by index.
      * @param index Number of the product on the list, starts w/ 0.
      */
-    public void removeProductByNumber(int index) {
+    public void removeWidgetProductByNumber(int index) {
         displayCartWidget();
         removeIcons.get(index).click();
     }
@@ -155,10 +155,10 @@ public class HomePage {
      * Clicks the remove icon inside the widget for the product selected by product name.
      * @param name Name of the product on the list.
      */
-    public void removeProductByName(String name) {
+    public void removeWidgetProductByName(String name) {
         displayCartWidget();
-        for ( int i = 0; i < widgetItems.size(); i++ ) {
-            if ( widgetItems.get(i).findElement(itemName).getText().contains(name) ) {
+        for ( int i = 0; i < driver.findElements(widgetItems).size(); i++ ) {
+            if ( driver.findElements(widgetItems).get(i).findElement(itemName).getText().contains(name) ) {
                 removeIcons.get(i).click();
                 break;
             }
@@ -166,10 +166,22 @@ public class HomePage {
     }
 
     /**
+     * Returns the list of the names of the products from the cart widget.
+     * @return List of product names.
+     */
+    public List<String> getProductItemsFromWidget() {
+        List<String> productNames = new ArrayList<String>();
+        for ( WebElement element: driver.findElements(widgetItems) ) {
+            productNames.add(element.findElement(itemName).getText());
+        }
+        return productNames;
+    }
+
+    /**
      * Clicks the Checkout button inside the widget.
      * @return Checkout page object.
      */
-    public CheckOutPage clickCheckoutButton() {
+    public CheckOutPage clickWidgetCheckoutButton() {
         checkOutButton.click();
         return new CheckOutPage(driver);
     }
