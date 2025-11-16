@@ -49,7 +49,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test(dataProvider = "userLogins") @Ignore
-    public void loginUsingProperData(String email, String password) {
+    public void loginUsingProperDataTest(String email, String password) {
         ExtentTest test = extentReports.createTest("Login user with proper email address and password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -69,7 +69,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test() @Ignore
-    public void loginUserWithoutEmailAddress() {
+    public void loginUserWithoutEmailAddressTest() {
         ExtentTest test = extentReports.createTest("Login user without email address");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -86,7 +86,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test() @Ignore
-    public void loginUserWithoutPassword() {
+    public void loginUserWithoutPasswordTest() {
         ExtentTest test = extentReports.createTest("Login user without password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -103,7 +103,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test() @Ignore
-    public void loginUserWithInvalidPassword() {
+    public void loginUserWithInvalidPasswordTest() {
         ExtentTest test = extentReports.createTest("Login user with incorrect password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -124,7 +124,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test() @Ignore
-    public void loginUserWithoutData() {
+    public void loginUserWithoutDataTest() {
         ExtentTest test = extentReports.createTest("Login user with incorrect password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -137,7 +137,7 @@ public class UserLoginTest extends BaseTest {
     }
 
     @Test()
-    public void resetUserPassword() {
+    public void resetUserPasswordTest() {
         // message data
         String sender = "Selenium Demo";
         String subject = "Reset password";
@@ -150,7 +150,7 @@ public class UserLoginTest extends BaseTest {
         logger.info("Entering email address: " + email);
         test.log(Status.PASS, "Entering email address: " + email);
         myAccountPage.enterRegisterEmail(email);
-        String password = "m4reczek1234!1";
+        String password = "m4reczek1234!";
         logger.info("Entering password: " + password);
         test.log(Status.PASS, "Entering password: " + password);
         myAccountPage.enterRegisterPassword(password);

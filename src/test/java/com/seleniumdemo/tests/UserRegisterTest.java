@@ -15,7 +15,7 @@ public class UserRegisterTest extends BaseTest {
     private static final Logger logger = LogManager.getLogger();
 
     @Test()
-    public void registerUserWithoutEmail() {
+    public void registerUserWithoutEmailTest() {
         ExtentTest test = extentReports.createTest("Register user without email adddress");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -32,7 +32,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void registerUserWithoutPassword() {
+    public void registerUserWithoutPasswordTest() {
         ExtentTest test = extentReports.createTest("Register user without password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -49,7 +49,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void registerUserWithInvalidEmail() {
+    public void registerUserWithInvalidEmailTest() {
         ExtentTest test = extentReports.createTest("Register user with invalid email address");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -71,7 +71,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void registerUserWithOnlyAtSign() {
+    public void registerUserWithOnlyAtSignTest() {
         ExtentTest test = extentReports.createTest("Register user with invalid email " +
                 "address containing only @ char");
         HomePage homePage = new HomePage(driver);
@@ -93,7 +93,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void registerUserWithTooShortPassword() {
+    public void registerUserWithTooShortPasswordTest() {
         ExtentTest test = extentReports.createTest("Register user with too short password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -111,7 +111,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void regsiterUserWithoutDifferentCharacters() {
+    public void regsiterUserWithoutDifferentCharactersTest() {
         ExtentTest test = extentReports.createTest("Register user with password without" +
                 " upper case letters, numbers and special characters");
         HomePage homePage = new HomePage(driver);
@@ -130,7 +130,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test()
-    public void registerUserWithValidData() {
+    public void registerUserWithValidDataTest() {
         ExtentTest test = extentReports.createTest("Register user with correct email address and password");
         HomePage homePage = new HomePage(driver);
         logger.info("Entering the My Account page");
@@ -149,7 +149,7 @@ public class UserRegisterTest extends BaseTest {
     }
 
     @Test(dataProvider = "registerUserData")
-    public void registerUserWithDataProvider(String email, String password) {
+    public void registerUserWithDataProviderTest(String email, String password) {
         ExtentTest test = extentReports.createTest("Register user with correct email address " +
                 "and password using data provider");
         HomePage homePage = new HomePage(driver);
