@@ -26,7 +26,7 @@ public class OrderSummaryPage {
     private WebElement orderTotal;
     @FindBy(className = "order_item")
     private List<WebElement> orderItems;
-    By itemName = By.className(" product-name");
+    By itemName = By.className("product-name");
     @FindBy(className = "woocommerce-customer-details")
     private WebElement customerDetails;
     By customerAddress = By.tagName("address");
@@ -35,6 +35,9 @@ public class OrderSummaryPage {
     @FindBy(tagName = "tfoot")
     private WebElement tableFoot;
     By rowHeading = By.tagName("th");
+
+    // Messages
+    public static final String ORDER_SUCCESS = "Thank you. Your order has been received.";
 
     /**
      * Class that holds the locators of the Order Summary page and methods to get its webelements.
