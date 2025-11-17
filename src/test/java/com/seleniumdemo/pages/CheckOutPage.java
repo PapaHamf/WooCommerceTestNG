@@ -1,8 +1,8 @@
 package com.seleniumdemo.pages;
 
 import com.seleniumdemo.utils.SeleniumHelper;
+import com.seleniumdemo.utils.TestDataProvider;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CheckOutPage {
 
@@ -60,6 +61,8 @@ public class CheckOutPage {
     private By productQuantity = By.className("product-quantity");
     private By productTotal = By.className("product-total");
     private By placeOrderBtn = By.id("place_order");
+    private By countryOption = By.tagName("option");
+    private By billing_state = By.id("billing_state");
 
     // Javascripts
     private static final String SCROLL_TO_ORDER_BUTTON_JS = "arguments[0].scrollIntoView(true);";
@@ -95,6 +98,20 @@ public class CheckOutPage {
      */
     public void setCompanyName(String companyName) {
         this.companyName.sendKeys(companyName);
+    }
+
+    /**
+     * Returns the list of Strings containing the country names.
+     * @return List of country names.
+     */
+    public List<String> getCountryListValues() {
+        List<String> countryNames = new ArrayList<String>();
+        Select select = new Select(selectCountry);
+        //for ( WebElement element:  selectCountry.findElements(countryOption) ) {
+        for ( WebElement element:  select.getOptions() ) {
+            countryNames.add(element.getText());
+        }
+        return countryNames;
     }
 
     /**
@@ -153,6 +170,39 @@ public class CheckOutPage {
      */
     public void setCity(String city) {
         this.city.sendKeys(city);
+    }
+
+    /**
+     * Returns the list of Strings containing the state names.
+     * @return List of state names.
+     */
+    public List<String> getStateListValues() {
+        List<String> stateNames = new ArrayList<String>();
+        Select select = new Select(driver.findElement(billing_state));
+        for ( WebElement element:  select.getOptions() ) {
+            stateNames.add(element.getText());
+        }
+        return stateNames;
+    }
+
+    /**
+     * Sets the random name of the state if the field is input type or selects the random
+     * available state from the list if the field is select type.
+     * @param dataProvider TestDataProvider object that allows to use faker.
+     */
+    public void setState(TestDataProvider dataProvider) {
+        String tagName = driver.findElement(billing_state).getTagName();
+        if ( tagName.equals("input") ) {
+            driver.findElement(billing_state).sendKeys(dataProvider.faker.address().state());
+        }
+        else if ( tagName.equals("select") ) {
+            // fetch data
+            List<String> stateNames = getStateListValues();
+            Random random = new Random();
+            int index = random.nextInt(0, stateNames.size() - 1);
+            Select select = new Select(driver.findElement(billing_state));
+            select.selectByVisibleText(stateNames.get(index));
+        }
     }
 
     /**
