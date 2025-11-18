@@ -62,6 +62,7 @@ public class CartTest extends  BaseTest {
         SoftAssert soft = new SoftAssert();
         soft.assertEquals(cartPage.getTotalNumberOfProductItems(), 2);
         soft.assertEquals(cartPage.getProductNames(), Arrays.stream(productNames).toList());
+        soft.assertAll();
     }
 
     @Test() @Ignore
@@ -91,6 +92,7 @@ public class CartTest extends  BaseTest {
         test.log(Status.PASS, "Clicking the View cart button");
         CartPage cartPage = productPage.clickViewCartAlert();
         soft.assertEquals(cartPage.getProductQuantityByName(productName), numberOfItems);
+        soft.assertAll();
     }
 
     @Test() @Ignore
@@ -116,6 +118,7 @@ public class CartTest extends  BaseTest {
         SoftAssert soft = new SoftAssert();
         soft.assertTrue(cartPage.getAlertMessage().contains(CartPage.PRODUCT_REMOVED));
         soft.assertNotEquals(cartPage.getProductNames(), productNamesBeforeRemove);
+        soft.assertAll();
     }
 
     @Test() @Ignore
@@ -214,6 +217,7 @@ public class CartTest extends  BaseTest {
                 .replace(" ", ""));
         int prodQty = Integer.parseInt(newQty);
         soft.assertEquals(prodTotal, (prodPrice * prodQty));
+        soft.assertAll();
     }
 
     @Test()
@@ -266,5 +270,6 @@ public class CartTest extends  BaseTest {
         test.log(Status.PASS, "Clicking the Add to cart button");
         productPage.clickAddToCart();
         soft.assertTrue(productPage.getAlertMessage().contains(ProductPage.ADDED_TO_CART));
+        soft.assertAll();
     }
 }
