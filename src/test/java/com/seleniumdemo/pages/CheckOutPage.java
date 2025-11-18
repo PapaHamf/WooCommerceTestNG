@@ -1,8 +1,8 @@
 package com.seleniumdemo.pages;
 
 import com.seleniumdemo.utils.SeleniumHelper;
-import com.seleniumdemo.utils.TestDataProvider;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CheckOutPage {
 
@@ -55,17 +54,23 @@ public class CheckOutPage {
     // @FindBy(id = "place_order")
     // private WebElement placeOrderButton;
 
+    // Bottom table (dynamic)
     private By table = By.className("shop_table");
     private By tableBody = By.tagName("tbody");
     private By productName = By.className("product-name");
     private By productQuantity = By.className("product-quantity");
     private By productTotal = By.className("product-total");
     private By placeOrderBtn = By.id("place_order");
+    // Diff fields and alerts
     private By countryOption = By.tagName("option");
-    private By billing_state = By.id("billing_state");
+    private By billingState = By.id("billing_state");
+    private By checkoutErrors = By.cssSelector("ul.woocommerce-error li");
 
     // Javascripts
     private static final String SCROLL_TO_ORDER_BUTTON_JS = "arguments[0].scrollIntoView(true);";
+    // Messages
+    public static final String FIELD_REQUIRED_ERROR = "is a required field.";
+    public static final String FIRST_NAME_ERROR = "Billing First name is a required field.";
 
     /**
      * Class that holds the locators of the Checkout page and methods to get its webelements.
@@ -173,12 +178,29 @@ public class CheckOutPage {
     }
 
     /**
+     * Checks if the State field is displayed on the Checkout page.
+     * @return True if displaye.
+     */
+    public boolean stateIsDisplayed() {
+        return driver.findElement(billingState).isDisplayed();
+    }
+
+    /**
+     * Checks the type of the State field displayed on the Checkout page.
+     * @return True if the state field is select, false if input.
+     */
+    public boolean stateIsSelect() {
+        String tagName = driver.findElement(billingState).getTagName();
+        return tagName.equals("select");
+    }
+
+    /**
      * Returns the list of Strings containing the state names.
      * @return List of state names.
      */
     public List<String> getStateListValues() {
         List<String> stateNames = new ArrayList<String>();
-        Select select = new Select(driver.findElement(billing_state));
+        Select select = new Select(driver.findElement(billingState));
         for ( WebElement element:  select.getOptions() ) {
             stateNames.add(element.getText());
         }
@@ -186,23 +208,16 @@ public class CheckOutPage {
     }
 
     /**
-     * Sets the random name of the state if the field is input type or selects the random
-     * available state from the list if the field is select type.
-     * @param dataProvider TestDataProvider object that allows to use faker.
+     * Sets the State/County field to random name of the state.
+     * @param state Text containing the name of state.
      */
-    public void setState(TestDataProvider dataProvider) {
-        String tagName = driver.findElement(billing_state).getTagName();
-        if ( tagName.equals("input") ) {
-            driver.findElement(billing_state).sendKeys(dataProvider.faker.address().state());
-        }
-        else if ( tagName.equals("select") ) {
-            // fetch data
-            List<String> stateNames = getStateListValues();
-            Random random = new Random();
-            int index = random.nextInt(0, stateNames.size() - 1);
-            Select select = new Select(driver.findElement(billing_state));
-            select.selectByVisibleText(stateNames.get(index));
-        }
+    public void setState(String state) {
+        driver.findElement(billingState).sendKeys(state);
+    }
+
+    public void selectState(String state) {
+        Select select = new Select(driver.findElement(billingState));
+        select.selectByVisibleText(state);
     }
 
     /**
@@ -302,10 +317,22 @@ public class CheckOutPage {
      * @return Order Summary page object.
      */
     public OrderSummaryPage clickPlaceOrder() {
-        // JavascriptExecutor js = (JavascriptExecutor) driver;
-        // js.executeScript(SCROLL_TO_ORDER_BUTTON_JS, driver.findElement(placeOrderBtn));
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript(SCROLL_TO_ORDER_BUTTON_JS, driver.findElement(placeOrderBtn));
         SeleniumHelper.waitForElementToBeClickable(driver, driver.findElement(placeOrderBtn));
         driver.findElement(placeOrderBtn).click();
         return new OrderSummaryPage(driver);
+    }
+
+    /**
+     * Returns the list of String containing the Checkout page form verification errors.
+     * @return List of errors.
+     */
+    public List<String> getVerificationErrors() {
+        List<String> errorsList = new ArrayList<String>();
+        for ( WebElement element: driver.findElements(checkoutErrors) ) {
+            errorsList.add(element.getText());
+        }
+        return errorsList;
     }
 }
