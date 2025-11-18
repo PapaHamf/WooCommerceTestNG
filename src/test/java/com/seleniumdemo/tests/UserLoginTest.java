@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WindowType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class UserLoginTest extends BaseTest {
         driver.quit();
     }
 
-    @Test(dataProvider = "userLogins") @Ignore
+    @Test(dataProvider = "userLogins")
     public void loginUsingProperDataTest(String email, String password) {
         ExtentTest test = extentReports.createTest("Login user with proper email address and password");
         HomePage homePage = new HomePage(driver);
@@ -68,7 +67,7 @@ public class UserLoginTest extends BaseTest {
         userDashboardPage.clickLogoutLink();
     }
 
-    @Test() @Ignore
+    @Test()
     public void loginUserWithoutEmailAddressTest() {
         ExtentTest test = extentReports.createTest("Login user without email address");
         HomePage homePage = new HomePage(driver);
@@ -85,7 +84,7 @@ public class UserLoginTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_USER);
     }
 
-    @Test() @Ignore
+    @Test()
     public void loginUserWithoutPasswordTest() {
         ExtentTest test = extentReports.createTest("Login user without password");
         HomePage homePage = new HomePage(driver);
@@ -102,7 +101,7 @@ public class UserLoginTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.EMPTY_PASSWORD);
     }
 
-    @Test() @Ignore
+    @Test()
     public void loginUserWithInvalidPasswordTest() {
         ExtentTest test = extentReports.createTest("Login user with incorrect password");
         HomePage homePage = new HomePage(driver);
@@ -123,7 +122,7 @@ public class UserLoginTest extends BaseTest {
         Assert.assertEquals(myAccountPage.getErrorMessage(), MyAccountPage.INVALID_PASS_USER);
     }
 
-    @Test() @Ignore
+    @Test()
     public void loginUserWithoutDataTest() {
         ExtentTest test = extentReports.createTest("Login user with incorrect password");
         HomePage homePage = new HomePage(driver);

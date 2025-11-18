@@ -6,7 +6,6 @@ import com.seleniumdemo.pages.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -17,7 +16,7 @@ public class CheckoutTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger();
 
-    @Test() @Ignore
+    @Test()
     public void proceedToCheckoutTest() {
         ExtentTest test = extentReports.createTest("Proceed to checkout");
         HomePage homePage = new HomePage(driver);
@@ -97,7 +96,7 @@ public class CheckoutTest extends BaseTest {
         Assert.assertEquals(orderSummaryPage.getOrderNotice(), OrderSummaryPage.ORDER_SUCCESS);
     }
 
-    @Test() @Ignore
+    @Test()
     public void proceedToCheckoutWithoutDataTest() {
         ExtentTest test = extentReports.createTest("Proceed to checkout without entering the data");
         HomePage homePage = new HomePage(driver);
@@ -171,7 +170,7 @@ public class CheckoutTest extends BaseTest {
         soft.assertAll();
     }
 
-    @Test() @Ignore
+    @Test()
     public void checkoutWithInvalidEmailAddressTest() {
         ExtentTest test = extentReports.createTest("Proceed to checkout with invalid emal address");
         HomePage homePage = new HomePage(driver);

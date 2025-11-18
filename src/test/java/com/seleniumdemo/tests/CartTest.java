@@ -10,7 +10,6 @@ import com.seleniumdemo.utils.SeleniumHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -22,7 +21,7 @@ public class CartTest extends  BaseTest {
 
     private static final Logger logger = LogManager.getLogger();
 
-    @Test() @Ignore
+    @Test()
     public void addProductToCartTest()  {
         ExtentTest test = extentReports.createTest("Add random product to the cart");
         HomePage homePage = new HomePage(driver);
@@ -37,7 +36,7 @@ public class CartTest extends  BaseTest {
         Assert.assertTrue(shopPage.productIsAddedByNumber(randomNum));
     }
 
-    @Test() @Ignore
+    @Test()
     public void addMultipleProductsToCartTest() {
         String[] productNames = new String[2];
         ExtentTest test = extentReports.createTest("Add two random products to the cart");
@@ -65,7 +64,7 @@ public class CartTest extends  BaseTest {
         soft.assertAll();
     }
 
-    @Test() @Ignore
+    @Test()
     public void addProductFromProductPageTest() {
         ExtentTest test = extentReports.createTest("Add product from the product page");
         HomePage homePage = new HomePage(driver);
@@ -95,7 +94,7 @@ public class CartTest extends  BaseTest {
         soft.assertAll();
     }
 
-    @Test() @Ignore
+    @Test()
     public void removeProductFromCartTest() {
         ExtentTest test = extentReports.createTest("Remove product from the cart");
         HomePage homePage = new HomePage(driver);
@@ -121,7 +120,7 @@ public class CartTest extends  BaseTest {
         soft.assertAll();
     }
 
-    @Test() @Ignore
+    @Test()
     public void undoRemovalOfProductFromCartTest() {
         ExtentTest test = extentReports.createTest("Undo removal of product from the cart");
         HomePage homePage = new HomePage(driver);
@@ -147,7 +146,7 @@ public class CartTest extends  BaseTest {
         Assert.assertTrue(cartPage.getProductNames().contains(productName));
     }
 
-    @Test() @Ignore
+    @Test()
     public void removeProductFromWidgetTest() {
         ExtentTest test = extentReports.createTest("Remove product from the cart widget");
         HomePage homePage = new HomePage(driver);
@@ -174,7 +173,7 @@ public class CartTest extends  BaseTest {
         Assert.assertNotEquals(homePage.getProductItemsFromWidget(), productNamesBeforeRemove);
     }
 
-    @Test() @Ignore
+    @Test()
     public void checkProductsQuantityPriceInCartTest() {
         ExtentTest test = extentReports.createTest("Verify the products quantity and price in the cart");
         HomePage homePage = new HomePage(driver);
