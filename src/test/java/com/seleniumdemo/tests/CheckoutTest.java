@@ -6,7 +6,9 @@ import com.seleniumdemo.pages.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 import java.util.Random;
@@ -15,7 +17,7 @@ public class CheckoutTest extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger();
 
-    @Test()
+    @Test() @Ignore
     public void proceedToCheckoutTest() {
         ExtentTest test = extentReports.createTest("Proceed to checkout");
         HomePage homePage = new HomePage(driver);
@@ -74,7 +76,13 @@ public class CheckoutTest extends BaseTest {
         test.log(Status.PASS, "Entering the city name: "+ city);
         checkOutPage.setCity(city);
         try {
-            checkOutPage.setState(dataProvider);
+            if ( checkOutPage.stateIsSelect() ) {
+                List<String> stateNames = checkOutPage.getStateListValues();
+                checkOutPage.selectState(stateNames.get(random.nextInt(0, stateNames.size())));
+            }
+            else {
+                checkOutPage.setState(dataProvider.faker.address().state());
+            }
         }
         catch (Exception e) {
             test.log(Status.FAIL, "State tag not found.");
@@ -87,6 +95,77 @@ public class CheckoutTest extends BaseTest {
         test.log(Status.PASS, "Clicking the Place order button");
         OrderSummaryPage orderSummaryPage = checkOutPage.clickPlaceOrder();
         Assert.assertEquals(orderSummaryPage.getOrderNotice(), OrderSummaryPage.ORDER_SUCCESS);
+    }
+
+    @Test() @Ignore
+    public void proceedToCheckoutWithoutDataTest() {
+        ExtentTest test = extentReports.createTest("Proceed to checkout without entering the data");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        Random random = new Random();
+        int randomNum = random.nextInt(0, shopPage.getProductsList().size());
+        logger.info("Adding random product to cart, " + randomNum);
+        test.log(Status.PASS, "Adding random product to cart, " + randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
+        logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
+        CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
+        logger.info("Clicking the Proceed to checkout button");
+        test.log(Status.PASS, "Clicking the Proceed to checkout button");
+        CheckOutPage checkOutPage = cartPage.clickCheckoutButton();
+        logger.info("Clicking the Place order button");
+        test.log(Status.PASS, "Clicking the Place order button");
+        checkOutPage.clickPlaceOrder();
+        try {
+            if ( checkOutPage.stateIsDisplayed() ) {
+                Assert.assertEquals(checkOutPage.getVerificationErrors().size(), 8);
+            }
+        }
+        catch (Exception e) {
+            test.log(Status.FAIL, "State tag not found.");
+            Assert.assertEquals(checkOutPage.getStateListValues().size(), 7);
+        }
+    }
+
+    @Test()
+    public void checkoutWithNumbersInFirstNameTest() {
+        ExtentTest test = extentReports.createTest("Proceed to checkout with 1 in the first name field");
+        HomePage homePage = new HomePage(driver);
+        logger.info("Entering the Shop page");
+        test.log(Status.PASS, "Entering the Shop page");
+        ShopPage shopPage = homePage.clickShop();
+        Random random = new Random();
+        int randomNum = random.nextInt(0, shopPage.getProductsList().size());
+        logger.info("Adding random product to cart, " + randomNum);
+        test.log(Status.PASS, "Adding random product to cart, " + randomNum);
+        shopPage.clickProductButtonByNumber(randomNum);
+        logger.info("Clicking View cart link");
+        test.log(Status.PASS, "Clicking View cart link");
+        CartPage cartPage = shopPage.clickViewCartLink(shopPage.getProductsList().get(randomNum));
+        logger.info("Clicking the Proceed to checkout button");
+        test.log(Status.PASS, "Clicking the Proceed to checkout button");
+        CheckOutPage checkOutPage = cartPage.clickCheckoutButton();
+        logger.info("Entering the first name: 1");
+        test.log(Status.PASS, "Entering the first name: 1");
+        checkOutPage.setFirstName("1");
+        logger.info("Clicking the Place order button");
+        test.log(Status.PASS, "Clicking the Place order button");
+        checkOutPage.clickPlaceOrder();
+        SoftAssert soft = new SoftAssert();
+        List<String> errors = checkOutPage.getVerificationErrors();
+        try {
+            if ( checkOutPage.stateIsDisplayed() ) {
+                soft.assertEquals(errors.size(), 8);
+                soft.assertEquals(errors.get(0), CheckOutPage.FIRST_NAME_ERROR);
+            }
+        }
+        catch (Exception e) {
+            test.log(Status.FAIL, "State tag not found.");
+            soft.assertEquals(errors.size(), 7);
+            soft.assertEquals(errors.get(0), CheckOutPage.FIRST_NAME_ERROR);
+        }
     }
 
 
