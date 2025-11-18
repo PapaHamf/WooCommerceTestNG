@@ -71,6 +71,7 @@ public class CheckOutPage {
     // Messages
     public static final String FIELD_REQUIRED_ERROR = "is a required field.";
     public static final String FIRST_NAME_ERROR = "Billing First name is a required field.";
+    public static final String INVALID_EMAIL = "Invalid billing email address";
 
     /**
      * Class that holds the locators of the Checkout page and methods to get its webelements.
